@@ -1,27 +1,76 @@
 ﻿using DisprzTraining.Models;
+using DisprzTraining.Business;
+using System.Net;
+using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Core;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace DisprzTraining.Controllers
 {
-    public class AppointmentsController : Controller
+    [ApiController]
+    [Route("[controller]")]
+    public class AppointmentlistController : Controller
     {
-        public AppointmentsController()
+        private readonly IAppointmentsBL _AppointmentsBL;
+
+        public AppointmentlistController(IAppointmentsBL AppointmentsBL)
         {
+            _AppointmentsBL = AppointmentsBL;
         }
 
-        //design - GET /api/appointments
-        //- POST /api/appointments
-        //- DELETE /api/appointments
+        [HttpGet("/appointment")]
+        public async Task<IActionResult> GetAllAppointmentAsync()
+        {
+            return Ok(await _AppointmentsBL.GetAllAppointmentInListAsync());
+        }
 
-        //refer hello world controller for BL & DAL logic 
+        [HttpGet("/appointment/{date}")]
+        public async Task<IActionResult> GetAppointmenByDateAsync(DateTime date)
+        {
+            return Ok(await _AppointmentsBL.GetAppointmentByDateInListAsync(date));
+        }
 
-        //[HttpGet]
-        //[ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Appointment))]
-        //[ProducesResponseType(StatusCodes.Status404NotFound)]
-        //public async Task<IActionResult> GerAppointments()
-        //{
-        //    return Ok();
-        //}
+        [HttpPost("/appointment")]
+        public IActionResult AddAppointment(AppointmentList addAppointmentValue)
+        {
+            if (_AppointmentsBL.AddAppointmentInList(addAppointmentValue))
+            {
+                return Created("", "");
+            }
+            else
+            {
+                return Conflict();
+            }
+        }
 
+        [HttpPatch("/appointment")]
+        public IActionResult PatchAppointment(PatchAppointmentList patchAppointmentValue)
+        {
+            if (_AppointmentsBL.patchAppointmentsInList(patchAppointmentValue))
+            {
+                 return Created("", "");
+            }
+            else
+            {
+                return Conflict();
+            }
+        }
+
+        [HttpDelete("/appointment/{deleteId}")]
+        public IActionResult DeleteAppointment(string deleteId)
+        {
+            if (_AppointmentsBL.DeleteAppointmentById(deleteId))
+            {
+                return Ok();
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
     }
 }
