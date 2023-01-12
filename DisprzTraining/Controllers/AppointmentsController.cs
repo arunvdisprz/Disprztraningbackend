@@ -21,19 +21,31 @@ namespace DisprzTraining.Controllers
         {
             _AppointmentsBL = AppointmentsBL;
         }
-
+        
+         /// <summary>
+        /// Get all appointments
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("/appointment")]
         public async Task<IActionResult> GetAllAppointmentAsync()
         {
             return Ok(await _AppointmentsBL.GetAllAppointmentInListAsync());
         }
 
+        /// <summary>
+        /// Get appointment gy date
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("/appointment/{date}")]
         public async Task<IActionResult> GetAppointmenByDateAsync(DateTime date)
         {
             return Ok(await _AppointmentsBL.GetAppointmentByDateInListAsync(date));
         }
 
+        /// <summary>
+        /// Post a new appointment
+        /// </summary>
+        /// <returns></returns>
         [HttpPost("/appointment")]
         public IActionResult AddAppointment(AppointmentList addAppointmentValue)
         {
@@ -47,6 +59,10 @@ namespace DisprzTraining.Controllers
             }
         }
 
+        /// <summary>
+        /// Patch a exiting appointment 
+        /// </summary>
+        /// <returns></returns>
         [HttpPatch("/appointment")]
         public IActionResult PatchAppointment(PatchAppointmentList patchAppointmentValue)
         {
@@ -60,6 +76,10 @@ namespace DisprzTraining.Controllers
             }
         }
 
+         /// <summary>
+        ///  Delete a exiting appointment 
+        /// </summary>
+        /// <returns></returns>
         [HttpDelete("/appointment/{deleteId}")]
         public IActionResult DeleteAppointment(string deleteId)
         {

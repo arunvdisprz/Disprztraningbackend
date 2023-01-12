@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>DisprzTraining</name>
+    </assembly>
+    <members>
+        <member name="M:DisprzTraining.Controllers.AppointmentlistController.GetAllAppointmentAsync">
+            <summary>
+            Get all appointments
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DisprzTraining.Controllers.AppointmentlistController.GetAppointmenByDateAsync(System.DateTime)">
+            <summary>
+            Get appointment gy date
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DisprzTraining.Controllers.AppointmentlistController.AddAppointment(DisprzTraining.Models.AppointmentList)">
+            <summary>
+            Post a new appointment
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DisprzTraining.Controllers.AppointmentlistController.PatchAppointment(DisprzTraining.Models.PatchAppointmentList)">
+            <summary>
+            Patch a exiting appointment 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DisprzTraining.Controllers.AppointmentlistController.DeleteAppointment(System.String)">
+            <summary>
+             Delete a exiting appointment 
+            </summary>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

@@ -60,8 +60,6 @@ namespace DisprzTraining.Tests
                 appointmentDate = new DateTime(2023, 1, 8, 6, 33, 19),
                 appointmentStartTime = new DateTime(2023, 1, 8, 4, 33, 19),
                 appointmentEndTime = new DateTime(2023, 1, 8, 8, 33, 19),
-                startTime = "string",
-                endTime = "string",
                 appointmentContent = "string",
                 location = "string",
                 description = "string",
@@ -87,8 +85,6 @@ namespace DisprzTraining.Tests
                 appointmentDate = new DateTime(2023, 1, 8, 6, 33, 19),
                 appointmentStartTime = new DateTime(2023, 1, 8, 4, 33, 19),
                 appointmentEndTime = new DateTime(2023, 1, 8, 3, 33, 19),
-                startTime = "string",
-                endTime = "string",
                 appointmentContent = "string",
                 location = "string",
                 description = "string",
@@ -115,11 +111,7 @@ namespace DisprzTraining.Tests
                 patchAppointmentDate = new DateTime(2023, 1, 8, 6, 33, 19),
                 patchAppointmentStartTime = new DateTime(2023, 1, 8, 4, 33, 19),
                 patchAppointmentEndTime = new DateTime(2023, 1, 8, 9, 33, 19),
-                patchStartTime = "string",
-                patchEndTime = "string",
-                patchAppointmentContent = "string",
-                patchLocation = "string",
-                patchDescription = "string",
+                patchAppointmentContent = "string",  
                 patchColor = "string"
             };
             // Act
@@ -141,12 +133,8 @@ namespace DisprzTraining.Tests
                 patchId = "string123",
                 patchAppointmentDate = new DateTime(2023, 1, 8, 6, 33, 19),
                 patchAppointmentStartTime = new DateTime(2023, 1, 8, 4, 33, 19),
-                patchAppointmentEndTime = new DateTime(2023, 1, 8, 3, 33, 19),
-                patchStartTime = "string",
-                patchEndTime = "string",
+                patchAppointmentEndTime = new DateTime(2023, 1, 8, 3, 33, 19),  
                 patchAppointmentContent = "string",
-                patchLocation = "string",
-                patchDescription = "string",
                 patchColor = "string"
             };
             // Act

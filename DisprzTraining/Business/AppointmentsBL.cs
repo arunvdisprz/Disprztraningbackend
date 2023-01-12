@@ -7,38 +7,7 @@ namespace DisprzTraining.Business
     {
         public static List<AppointmentList> allAppointmentList = new List<AppointmentList>()
         {
-           new AppointmentList()
-            {
-                name = "string",
-                id = "string123",
-                appointmentDate = new DateTime(2023, 1, 8, 6, 33, 19),
-                appointmentStartTime = new DateTime(2023, 1, 8, 4, 33, 19),
-                appointmentEndTime = new DateTime(2023, 1, 8, 8, 33, 19),
-                startTime = "string",
-                endTime = "string",
-                appointmentContent = "string",
-                location = "string",
-                description = "string",
-                color = "string"
-            },
-            // new Appointmentlist()
-            // {
-            //     name = null,
-            //     id = "f748a05c-7",
-            //     Appointmentdate = "21st Dec  2022",
-            //     Starttime = "4:42",
-            //     Endtime = "5:42",
-            //     Appointmentcontent = "meet with ravi2"
-            // },
-            // new Appointmentlist()
-            // {
-            //     name = null,
-            //     id = "f748a05c-8",
-            //     Appointmentdate = "21st Dec  2022",
-            //     Starttime = "7:42",
-            //     Endtime = "8:42",
-            //     Appointmentcontent = "meet with ravi3"
-            // }
+
         };
 
         public static List<AppointmentList> filteredAppointmentList = new List<AppointmentList> { };
@@ -47,6 +16,8 @@ namespace DisprzTraining.Business
 
         public async Task<List<AppointmentList>> GetAllAppointmentInListAsync()
         {
+            allAppointmentList.Sort(
+                (x, y) => x.appointmentStartTime.CompareTo(y.appointmentStartTime));
             return (allAppointmentList);
         }
 
@@ -194,27 +165,9 @@ namespace DisprzTraining.Business
                     );
                     num1.appointmentStartTime = patchAppointmentValue.patchAppointmentStartTime;
                     num1.appointmentEndTime = patchAppointmentValue.patchAppointmentEndTime;
-                    num1.startTime = patchAppointmentValue.patchStartTime;
-                    num1.endTime = patchAppointmentValue.patchEndTime;
                     num1.appointmentContent = patchAppointmentValue.patchAppointmentContent;
-                    num1.location = patchAppointmentValue.patchLocation;
-                    num1.description = patchAppointmentValue.patchDescription;
                     num1.color = patchAppointmentValue.patchColor;
-                    // foreach (var num1 in allAppointmentList)
-                    // {
-                    //     if (num1.id == patchAppointmentValue.patchId)
-                    //     {
-                    //         num1.appointmentStartTime =
-                    //             patchAppointmentValue.patchAppointmentStartTime;
-                    //         num1.appointmentEndTime = patchAppointmentValue.patchAppointmentEndTime;
-                    //         num1.startTime = patchAppointmentValue.patchStartTime;
-                    //         num1.endTime = patchAppointmentValue.patchEndTime;
-                    //         num1.appointmentContent = patchAppointmentValue.patchAppointmentContent;
-                    //         num1.location = patchAppointmentValue.patchLocation;
-                    //         num1.description = patchAppointmentValue.patchDescription;
-                    //         num1.color = patchAppointmentValue.patchColor;
-                    //     }
-                    // }
+                    num1.appointmentStatus=patchAppointmentValue.patchAppointmentStatus;
                     count = 0;
                     return true;
                 }

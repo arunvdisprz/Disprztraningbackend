@@ -7314,11 +7314,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\arun.v_disprz\\Documents\\vscode\\fullstack\\full-backend\\DisprzTraining-main\\DisprzTraining\\DisprzTraining.csproj",
+      "projectUniqueName": "C:\\projects\\DisprzTraining-main\\DisprzTraining\\DisprzTraining.csproj",
       "projectName": "DisprzTraining",
-      "projectPath": "C:\\Users\\arun.v_disprz\\Documents\\vscode\\fullstack\\full-backend\\DisprzTraining-main\\DisprzTraining\\DisprzTraining.csproj",
+      "projectPath": "C:\\projects\\DisprzTraining-main\\DisprzTraining\\DisprzTraining.csproj",
       "packagesPath": "C:\\Users\\arun.v_disprz\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\arun.v_disprz\\Documents\\vscode\\fullstack\\full-backend\\DisprzTraining-main\\DisprzTraining\\obj\\",
+      "outputPath": "C:\\projects\\DisprzTraining-main\\DisprzTraining\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\arun.v_disprz\\AppData\\Roaming\\NuGet\\NuGet.Config"
