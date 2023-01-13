@@ -29,6 +29,20 @@ namespace DisprzTraining.Tests
             Assert.Equal(result?.StatusCode, 200);
         }
 
+        //Get all appointmet
+        [Fact]
+        public async Task GetAllAppointmentAsync_Returns_null()
+        {
+            // Arrange
+            IAppointmentsBL AppointmentsBL = new AppointmentsBL();
+            AppointmentlistController Appointments = new(AppointmentsBL);
+
+            // Act
+            var result = await Appointments.GetAllAppointmentAsync() as CreatedResult;
+            // Assert
+            Assert.Equal(result?.StatusCode, null);
+        }
+
         //Get appointment gy date
         [Fact]
         public async Task GetAppointmenByDateAsync_Returns_200_Success()
@@ -44,7 +58,21 @@ namespace DisprzTraining.Tests
             // Assert
             Assert.Equal(result?.StatusCode, 200);
         }
+        //Get all appointmet
+        [Fact]
+        public async Task GetAppointmenByDateAsync__Returns__null()
+        {
+            // Arrange
+            IAppointmentsBL AppointmentsBL = new AppointmentsBL();
+            AppointmentlistController Appointments = new(AppointmentsBL);
 
+            // Act
+            var result =
+                await Appointments.GetAppointmenByDateAsync(new DateTime(2023, 1, 8, 6, 33, 19))
+                as CreatedResult;
+            // Assert
+            Assert.Equal(result?.StatusCode, null);
+        }
         //ADD
         [Fact]
         public void AddAppointment_Returns_201()
