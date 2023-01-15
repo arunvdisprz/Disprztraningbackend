@@ -259,3 +259,5 @@ c:\projects\DisprzTraining-main\DisprzTraining.Tests\obj\Debug\net7.0\refint\Dis
 c:\projects\DisprzTraining-main\DisprzTraining.Tests\obj\Debug\net7.0\DisprzTraining.Tests.pdb
 c:\projects\DisprzTraining-main\DisprzTraining.Tests\obj\Debug\net7.0\DisprzTraining.Tests.genruntimeconfig.cache
 c:\projects\DisprzTraining-main\DisprzTraining.Tests\obj\Debug\net7.0\ref\DisprzTraining.Tests.dll
+C:\projects\DisprzTraining-main\DisprzTraining.Tests\bin\Debug\net7.0\Json.dll
+C:\projects\DisprzTraining-main\DisprzTraining.Tests\bin\Debug\net7.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll

@@ -7,19 +7,19 @@ namespace DisprzTraining.Business
     {
         public static List<AppointmentList> allAppointmentList = new List<AppointmentList>()
         {
-         new AppointmentList()
-           {
-             name = "string",
-             id = "string123",
-             appointmentDate = new DateTime(2023, 1, 8, 6, 33, 19),
-             appointmentStartTime = new DateTime(2023, 1, 8, 4, 33, 19),
-             appointmentEndTime = new DateTime(2023, 1, 8, 8, 33, 19),
-             appointmentContent = "string",
-             location = "string",
-             description = "string",
-             color = "string",
-             appointmentStatus= "string"
-            }
+        //  new AppointmentList()
+        //    {
+        //      name = "string",
+        //      id = "string123",
+        //      appointmentDate = new DateTime(2023, 1, 8, 6, 33, 19),
+        //      appointmentStartTime = new DateTime(2023, 1, 8, 4, 33, 19),
+        //      appointmentEndTime = new DateTime(2023, 1, 8, 8, 33, 19),
+        //      appointmentContent = "string",
+        //      location = "string",
+        //      description = "string",
+        //      color = "string",
+        //      appointmentStatus= true
+        //     }
 
         };
 
@@ -30,7 +30,7 @@ namespace DisprzTraining.Business
         public async Task<List<AppointmentList>> GetAllAppointmentInListAsync()
         {
             allAppointmentList.Sort(
-                (x, y) => x.appointmentStartTime.CompareTo(y.appointmentStartTime));
+                (x, y) => x.appointmentDate.CompareTo(y.appointmentDate));
             return (allAppointmentList);
         }
 

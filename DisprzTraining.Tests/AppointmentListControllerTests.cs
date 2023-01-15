@@ -186,7 +186,7 @@ namespace DisprzTraining.Tests
         }
 
         [Fact]
-        public void DeleteAppointment_Returns_400()
+        public void DeleteAppointment_Returns_404()
         {
             // Arrange
             IAppointmentsBL AppointmentsBL = new AppointmentsBL();

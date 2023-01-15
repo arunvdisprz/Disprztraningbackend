@@ -12,9 +12,9 @@ namespace DisprzTraining.Models
         public DateTime patchAppointmentDate { get; set; }
         public DateTime patchAppointmentStartTime { get; set; }
         public DateTime patchAppointmentEndTime { get; set; }
-
+        
         public string? patchAppointmentContent { get; set; }
         public string? patchColor { get; set; }
-         public string? patchAppointmentStatus { get; set; }
+         public Boolean patchAppointmentStatus { get; set; }
     }
 }

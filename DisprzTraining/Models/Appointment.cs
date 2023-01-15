@@ -19,7 +19,7 @@ namespace DisprzTraining.Models
         public string? location { get; set; }
         public string? description { get; set; }
         public string? color { get; set; }
-         public string? appointmentStatus { get; set; }
+         public Boolean appointmentStatus { get; set; }
          
     }
 }
