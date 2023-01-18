@@ -7,19 +7,19 @@ namespace DisprzTraining.Business
     {
         public static List<AppointmentList> allAppointmentList = new List<AppointmentList>()
         {
-        //  new AppointmentList()
-        //    {
-        //      name = "string",
-        //      id = "string123",
-        //      appointmentDate = new DateTime(2023, 1, 8, 6, 33, 19),
-        //      appointmentStartTime = new DateTime(2023, 1, 8, 4, 33, 19),
-        //      appointmentEndTime = new DateTime(2023, 1, 8, 8, 33, 19),
-        //      appointmentContent = "string",
-        //      location = "string",
-        //      description = "string",
-        //      color = "string",
-        //      appointmentStatus= true
-        //     }
+         new AppointmentList()
+           {
+             name = "string",
+             id = "string123",
+             appointmentDate = new DateTime(2023, 1, 8, 6, 33, 19),
+             appointmentStartTime = new DateTime(2023, 1, 8, 4, 33, 19),
+             appointmentEndTime = new DateTime(2023, 1, 8, 8, 33, 19),
+             appointmentContent = "string",
+             location = "string",
+             description = "string",
+             color = "string",
+             appointmentStatus= true
+            }
 
         };
 
