@@ -22,64 +22,153 @@ namespace DisprzTraining.Controllers
             _AppointmentsBL = AppointmentsBL;
         }
         
-         /// <summary>
+        /// <summary>
         /// Get all appointments
         /// </summary>
-        /// <returns></returns>
+
+        /// <response code="200"> Returns a list of appointments that the user created</response>
+        /// <response code="404"> Returns no appointment found</response>
+     
         [HttpGet("/appointment")]
         public async Task<IActionResult> GetAllAppointmentAsync()
         {
-            return Ok(await _AppointmentsBL.GetAllAppointmentInListAsync());
+            var result=await _AppointmentsBL.GetAllAppointmentInListAsync();
+            return result.Any() ? Ok(result) : NotFound(new Exception("No appointment found."));
         }
 
         /// <summary>
-        /// Get appointment gy date
+        /// Get appointments gy date
         /// </summary>
-        /// <returns></returns>
+
+        ///<remarks>
+        /// Sample request:
+        ///
+        ///      date : 2023-01-08
+        ///     
+        /// </remarks>
+
+        /// <response code="200"> Returns a list of appointments that the user created on a particular date</response>
+        /// <response code="404"> Returns no appointment found on a particular date </response>
+
         [HttpGet("/appointment/{date}")]
         public async Task<IActionResult> GetAppointmenByDateAsync(DateTime date)
         {
-            return Ok(await _AppointmentsBL.GetAppointmentByDateInListAsync(date));
+             var result=await _AppointmentsBL.GetAppointmentByDateInListAsync(date);
+            return result.Any() ? Ok(result) : NotFound(new Exception("No appointment found on a particular date."));
         }
 
         /// <summary>
         /// Post a new appointment
         /// </summary>
         /// <returns></returns>
+
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     {
+        ///       "name": "string",
+        ///       "id": "string",
+        ///       "appointmentDate": "2023-01-19T07:23:12.763Z",
+        ///       "appointmentStartTime": "2023-01-19T07:23:12.763Z",
+        ///       "appointmentEndTime": "2023-01-19T09:23:12.763Z",
+        ///       "appointmentContent": "string",
+        ///       "location": "string",
+        ///       "description": "string",
+        ///       "color": "string",
+        ///       "appointmentStatus": true
+        ///      }
+        ///
+        /// </remarks>
+
+        /// <response code="201">Returns appointment created successfully</response>
+        /// <response code="400">Returns bad request because of appointment start time greater than or equal to end time</response>
+        /// <response code="409">Returns conflict because of already have a appointment at this particular time</response>\
+
         [HttpPost("/appointment")]
         public IActionResult AddAppointment(AppointmentList addAppointmentValue)
         {
-            if (_AppointmentsBL.AddAppointmentInList(addAppointmentValue))
-            {
-                return Created("", "");
-            }
-            else
-            {
-                return Conflict();
-            }
+           if (addAppointmentValue.appointmentStartTime >= addAppointmentValue.appointmentEndTime){
+              if (addAppointmentValue.appointmentStartTime == addAppointmentValue.appointmentEndTime){
+                  return BadRequest(new Exception("Given the appointment start time and end time are equal"));
+               }else{
+                  return BadRequest(new Exception("Given appointment start time greater than appointment end time"));}
+           }
+           else{
+              if (_AppointmentsBL.AddAppointmentInList(addAppointmentValue))
+              {
+                return Created("","Appointment created successfully");
+               }
+               else
+               {
+                return Conflict(new Exception("Already have a appointment at this particular time"));
+               }
+           }
+            
         }
 
         /// <summary>
-        /// Patch a exiting appointment 
+        /// update a exiting appointment 
         /// </summary>
         /// <returns></returns>
+
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     {
+        ///       "name": "string",
+        ///       "id": "string",
+        ///       "appointmentDate": "2023-01-19T07:23:12.763Z",
+        ///       "appointmentStartTime": "2023-01-19T07:23:12.763Z",
+        ///       "appointmentEndTime": "2023-01-19T09:23:12.763Z",
+        ///       "appointmentContent": "string",
+        ///       "location": "string",
+        ///       "description": "string",
+        ///       "color": "string",
+        ///       "appointmentStatus": true
+        ///      }
+        ///
+        /// </remarks>
+
+        /// <response code="201">Returns appointment updated successfully</response>
+        /// <response code="400">Returns bad request because of appointment start time greater than or equal to end time</response>
+        /// <response code="409">Returns conflict because of already have a appointment at this particular time</response>\
+        
         [HttpPatch("/appointment")]
         public IActionResult PatchAppointment(PatchAppointmentList patchAppointmentValue)
         {
-            if (_AppointmentsBL.patchAppointmentsInList(patchAppointmentValue))
-            {
-                 return Created("", "");
-            }
-            else
-            {
-                return Conflict();
-            }
+            if (patchAppointmentValue.patchAppointmentStartTime >= patchAppointmentValue.patchAppointmentEndTime){
+               if (patchAppointmentValue.patchAppointmentStartTime == patchAppointmentValue.patchAppointmentEndTime){
+                 return BadRequest(new Exception("Given the appointment start time and end time are equal"));
+               }
+               else{
+                  return BadRequest(new Exception("Given the appointment start time greater than appointment end time"));}
+           }
+           else{
+              if  (_AppointmentsBL.patchAppointmentsInList(patchAppointmentValue))
+              {
+                return Created("","Appointment updated successfully");
+               }
+               else
+               {
+                return Conflict(new Exception("Already have a appointment at this particular time"));
+               }
+           }
         }
 
-         /// <summary>
-        ///  Delete a exiting appointment 
-        /// </summary>
-        /// <returns></returns>
+        /// <summary>
+        /// Deletes an existing appointment by id.
+        /// </summary>
+
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///        id: a06ac7bd-1b6c-4443-a499-deccd3f35660
+        ///
+        /// </remarks>
+
+        /// <response code="200">Appointment in a list deleted successfully.</response>
+        /// <response code="404">Given appointment id is not found in the list.</response>
+
         [HttpDelete("/appointment/{deleteId}")]
         public IActionResult DeleteAppointment(string deleteId)
         {
@@ -89,7 +178,7 @@ namespace DisprzTraining.Controllers
             }
             else
             {
-                return NotFound();
+                return NotFound(new Exception("Given appointment id is not found in the list"));
             }
         }
     }

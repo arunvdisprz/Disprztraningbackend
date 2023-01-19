@@ -7,19 +7,19 @@ namespace DisprzTraining.Business
     {
         public static List<AppointmentList> allAppointmentList = new List<AppointmentList>()
         {
-         new AppointmentList()
-           {
-             name = "string",
-             id = "string123",
-             appointmentDate = new DateTime(2023, 1, 8, 6, 33, 19),
-             appointmentStartTime = new DateTime(2023, 1, 8, 4, 33, 19),
-             appointmentEndTime = new DateTime(2023, 1, 8, 8, 33, 19),
-             appointmentContent = "string",
-             location = "string",
-             description = "string",
-             color = "string",
-             appointmentStatus= true
-            }
+        //  new AppointmentList()
+        //    {
+        //      name = "string",
+        //      id = "string123",
+        //      appointmentDate = new DateTime(2023, 1, 12),
+        //      appointmentStartTime = new DateTime(2023, 1, 8, 23, 00, 00),
+        //      appointmentEndTime = new DateTime(2023, 1, 8, 23,59, 00),
+        //      appointmentContent = "string",
+        //      location = "string",
+        //      description = "string",
+        //      color = "string",
+        //      appointmentStatus= true
+        //     }
 
         };
 
@@ -31,7 +31,7 @@ namespace DisprzTraining.Business
         {
             allAppointmentList.Sort(
                 (x, y) => x.appointmentDate.CompareTo(y.appointmentDate));
-            return (allAppointmentList);
+             return await Task.FromResult(allAppointmentList);
         }
 
         public async Task<List<AppointmentList>> GetAppointmentByDateInListAsync(DateTime date)
@@ -46,7 +46,7 @@ namespace DisprzTraining.Business
             filteredAppointmentList.Sort(
                 (x, y) => x.appointmentStartTime.CompareTo(y.appointmentStartTime)
             );
-            return (filteredAppointmentList);
+            return await Task.FromResult(filteredAppointmentList);
         }
 
         public Boolean AddAppointmentInList(AppointmentList addAppointmentValue)
@@ -67,12 +67,7 @@ namespace DisprzTraining.Business
                 )
                 .ToList();
 
-            if (addAppointmentValue.appointmentStartTime >= addAppointmentValue.appointmentEndTime)
-            {
-                return false;
-            }
-            else
-            {
+       
                 foreach (var num in filteredAppointmentList)
                 {
                     if (
@@ -106,7 +101,7 @@ namespace DisprzTraining.Business
                 {
                     return (false);
                 }
-            }
+            
         }
 
         public Boolean patchAppointmentsInList(PatchAppointmentList patchAppointmentValue)
@@ -128,6 +123,8 @@ namespace DisprzTraining.Business
                 .ToList();
 
             var item = filteredAppointmentList.Find(x => x.id == patchAppointmentValue.patchId);
+            
+            if (item!=null)
             filteredAppointmentList.Remove(item);
 
             if (
