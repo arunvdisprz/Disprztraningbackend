@@ -20,7 +20,6 @@ namespace DisprzTraining.Business
              color = "string",
              appointmentStatus= true
             }
-
         };
 
         public static List<AppointmentList> filteredAppointmentList = new List<AppointmentList> { };
