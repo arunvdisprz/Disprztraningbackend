@@ -7,19 +7,19 @@ namespace DisprzTraining.Business
     {
         public static List<AppointmentList> allAppointmentList = new List<AppointmentList>()
         {
-        //  new AppointmentList()
-        //    {
-        //      name = "string",
-        //      id = "string123",
-        //      appointmentDate = new DateTime(2023, 1, 12),
-        //      appointmentStartTime = new DateTime(2023, 1, 8, 23, 00, 00),
-        //      appointmentEndTime = new DateTime(2023, 1, 8, 23,59, 00),
-        //      appointmentContent = "string",
-        //      location = "string",
-        //      description = "string",
-        //      color = "string",
-        //      appointmentStatus= true
-        //     }
+         new AppointmentList()
+           {
+             name = "string",
+             id = "string123",
+             appointmentDate = new DateTime(2023, 1, 12),
+             appointmentStartTime = new DateTime(2023, 1, 8, 23, 00, 00),
+             appointmentEndTime = new DateTime(2023, 1, 8, 23,59, 00),
+             appointmentContent = "string",
+             location = "string",
+             description = "string",
+             color = "string",
+             appointmentStatus= true
+            }
 
         };
 
@@ -123,7 +123,7 @@ namespace DisprzTraining.Business
                 .ToList();
 
             var item = filteredAppointmentList.Find(x => x.id == patchAppointmentValue.patchId);
-            
+
             if (item!=null)
             filteredAppointmentList.Remove(item);
 
@@ -172,11 +172,12 @@ namespace DisprzTraining.Business
                     var num1 = allAppointmentList.Find(
                         x => x.id == patchAppointmentValue.patchId
                     );
+                    if (num1!=null){
                     num1.appointmentStartTime = patchAppointmentValue.patchAppointmentStartTime;
                     num1.appointmentEndTime = patchAppointmentValue.patchAppointmentEndTime;
                     num1.appointmentContent = patchAppointmentValue.patchAppointmentContent;
                     num1.color = patchAppointmentValue.patchColor;
-                    num1.appointmentStatus=patchAppointmentValue.patchAppointmentStatus;
+                    num1.appointmentStatus=patchAppointmentValue.patchAppointmentStatus;}
                     count = 0;
                     return true;
                 }
