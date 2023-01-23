@@ -1,6 +1,22 @@
-﻿namespace DisprzTraining.Models
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DisprzTraining.Models
 {
-    public class Appointment
+    public class AppointmentList
     {
+        public string? name { get; set; }
+        public string? id { get; set; }
+        public DateTime appointmentDate { get; set; }
+        public DateTime appointmentStartTime { get; set; }
+        public DateTime appointmentEndTime { get; set; }
+        public string? appointmentContent { get; set; }
+        public string? location { get; set; }
+        public string? description { get; set; }
+        public string? color { get; set; }
+        public Boolean appointmentStatus { get; set; }
+         
     }
 }
