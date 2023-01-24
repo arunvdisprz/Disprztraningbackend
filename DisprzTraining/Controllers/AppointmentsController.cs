@@ -21,9 +21,9 @@ namespace DisprzTraining.Controllers
 
         /// <response code="200"> Returns a list of appointments that the user created</response>
         [HttpGet("/appointment")]
-        public async Task<IActionResult> GetAllAppointmentAsync()
+        public IActionResult GetAllAppointment()
         {
-            var appointments = await _AppointmentsBL.GetAllAppointmentInListAsync();
+            var appointments = _AppointmentsBL.GetAllAppointmentInList();
             return Ok(appointments);
         }
 
@@ -40,19 +40,14 @@ namespace DisprzTraining.Controllers
 
         /// <response code="200"> Returns a list of appointments that the user created on a particular date</response>
         /// <response code="404"> Returns no appointment found on a particular date </response>
-
         [HttpGet("/appointment/{date}")]
-        public async Task<IActionResult> GetAppointmentsByDateAsync(DateTime date)
+        public IActionResult GetAppointmentsByDate(DateTime date)
         {
-            var appointments = await _AppointmentsBL.GetAppointmentByDateInListAsync(date);
+            var appointments = _AppointmentsBL.GetAppointmentByDateInList(date);
             if (appointments.Any())
-            {
                 return Ok(appointments);
-            }
             else
-            {
                 return NotFound("No appointments found");
-            }
         }
 
         /// <summary>
@@ -81,7 +76,6 @@ namespace DisprzTraining.Controllers
         /// <response code="201">Returns appointment created successfully</response>
         /// <response code="400">Returns bad request because of appointment start time greater than or equal to end time</response>
         /// <response code="409">Returns conflict because of already have a appointment at this particular time</response>\
-
         [HttpPost("/appointment")]
         public IActionResult AddAppointment(AppointmentList addAppointmentValue)
         {
@@ -91,26 +85,18 @@ namespace DisprzTraining.Controllers
                     addAppointmentValue.appointmentStartTime
                     == addAppointmentValue.appointmentEndTime
                 )
-                {
                     return BadRequest("Given the appointment start time and end time are equal");
-                }
                 else
-                {
                     return BadRequest(
                         "Given appointment start time greater than appointment end time"
                     );
-                }
             }
             else
             {
                 if (_AppointmentsBL.AddAppointmentInList(addAppointmentValue))
-                {
                     return Created("", "Appointment created successfully");
-                }
                 else
-                {
                     return Conflict("Already have a appointment at this particular time");
-                }
             }
         }
 
@@ -139,8 +125,7 @@ namespace DisprzTraining.Controllers
 
         /// <response code="201">Returns appointment updated successfully</response>
         /// <response code="400">Returns bad request because of appointment start time greater than or equal to end time</response>
-        /// <response code="409">Returns conflict because of already have a appointment at this particular time</response>\
-
+        /// <response code="409">Returns conflict because of already have a appointment at this particular time</response>
         [HttpPatch("/appointment")]
         public IActionResult PatchAppointment(PatchAppointmentList patchAppointmentValue)
         {
@@ -153,26 +138,18 @@ namespace DisprzTraining.Controllers
                     patchAppointmentValue.patchAppointmentStartTime
                     == patchAppointmentValue.patchAppointmentEndTime
                 )
-                {
                     return BadRequest("Given the appointment start time and end time are equal");
-                }
                 else
-                {
                     return BadRequest(
                         "Given the appointment start time greater than appointment end time"
                     );
-                }
             }
             else
             {
                 if (_AppointmentsBL.patchAppointmentsInList(patchAppointmentValue))
-                {
                     return Created("", "Appointment updated successfully");
-                }
                 else
-                {
                     return Conflict("Already have a appointment at this particular time");
-                }
             }
         }
 
@@ -189,18 +166,13 @@ namespace DisprzTraining.Controllers
 
         /// <response code="200">Appointment in a list deleted successfully.</response>
         /// <response code="404">Given appointment id is not found in the list.</response>
-
         [HttpDelete("/appointment/{deleteId}")]
         public IActionResult DeleteAppointment(string deleteId)
         {
             if (_AppointmentsBL.DeleteAppointmentById(deleteId))
-            {
                 return Ok();
-            }
             else
-            {
                 return NotFound("Given appointment id is not found in the list");
-            }
         }
     }
 }
