@@ -1,4 +1,4 @@
-﻿using DisprzTraining.Models;
+using DisprzTraining.Models;
 using DisprzTraining.Business;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,20 +20,11 @@ namespace DisprzTraining.Controllers
         /// </summary>
 
         /// <response code="200"> Returns a list of appointments that the user created</response>
-        /// <response code="404"> Returns no appointment found</response>
-
         [HttpGet("/appointment")]
         public async Task<IActionResult> GetAllAppointmentAsync()
         {
             var appointments = await _AppointmentsBL.GetAllAppointmentInListAsync();
-            if (appointments.Any())
-            {
-                return Ok(appointments);
-            }
-            else
-            {
-                return NotFound("No appointments found.");
-            }
+            return Ok(appointments);
         }
 
         /// <summary>
