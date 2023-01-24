@@ -4,34 +4,34 @@ namespace DisprzTraining.Business
 {
     public class AppointmentsBL : IAppointmentsBL
     {
-        public static List<AppointmentList> allAppointmentList = new List<AppointmentList>()
+        public  static List<AppointmentList> allAppointmentList = new List<AppointmentList>()
         {
-            // new AppointmentList()
-            // {
-            //     name = "string",
-            //     id = "a06ac7bd-1b6c-4443-a499-deccd3f35660",
-            //     appointmentDate = new DateTime(2023, 1, 12),
-            //     appointmentStartTime = new DateTime(2023, 1, 12, 23, 00, 00),
-            //     appointmentEndTime = new DateTime(2023, 1, 12, 23, 59, 00),
-            //     appointmentContent = "string",
-            //     location = "string",
-            //     description = "string",
-            //     color = "string",
-            //     appointmentStatus = true
-            // },
-            // new AppointmentList()
-            // {
-            //     name = "string",
-            //     id = "a06ac7bd-1b6c-4443-a499-deccd3f35661",
-            //     appointmentDate = new DateTime(2023, 1, 12),
-            //     appointmentStartTime = new DateTime(2023, 1, 12, 13, 00, 00),
-            //     appointmentEndTime = new DateTime(2023, 1, 12, 13, 59, 00),
-            //     appointmentContent = "string",
-            //     location = "string",
-            //     description = "string",
-            //     color = "string",
-            //     appointmentStatus = true
-            // }
+            new AppointmentList()
+            {
+                name = "string",
+                id = "a06ac7bd-1b6c-4443-a499-deccd3f35660",
+                appointmentDate = new DateTime(2023, 1, 12),
+                appointmentStartTime = new DateTime(2023, 1, 12, 23, 00, 00),
+                appointmentEndTime = new DateTime(2023, 1, 12, 23, 59, 00),
+                appointmentContent = "string",
+                location = "string",
+                description = "string",
+                color = "string",
+                appointmentStatus = true
+            },
+            new AppointmentList()
+            {
+                name = "string",
+                id = "a06ac7bd-1b6c-4443-a499-deccd3f35661",
+                appointmentDate = new DateTime(2023, 1, 12),
+                appointmentStartTime = new DateTime(2023, 1, 12, 13, 00, 00),
+                appointmentEndTime = new DateTime(2023, 1, 12, 13, 59, 00),
+                appointmentContent = "string",
+                location = "string",
+                description = "string",
+                color = "string",
+                appointmentStatus = true
+            }
         };
 
         public static List<AppointmentList> filteredAppointmentList = new List<AppointmentList> { };
