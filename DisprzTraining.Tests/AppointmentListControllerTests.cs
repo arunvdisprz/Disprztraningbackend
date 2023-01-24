@@ -2,7 +2,6 @@ using DisprzTraining.Business;
 using DisprzTraining.Controllers;
 using DisprzTraining.Models;
 using Microsoft.AspNetCore.Mvc;
-using Moq;
 using Xunit;
 using FluentAssertions;
 
@@ -14,14 +13,14 @@ namespace DisprzTraining.Tests
         //The test is checking that the method returns a status code of 200 (success) and that the returned value is a list of "AppointmentList" objects.
         //The test also checks that the returned value is not null.
         [Fact]
-        public async Task GetAllAppointmentAsync_Returns_200_Success()
+        public void GetAllAppointment_Returns_200_Success()
         {
             // Arrange
             IAppointmentsBL AppointmentsBL = new AppointmentsBL();
             AppointmentlistController Appointments = new(AppointmentsBL);
 
             // Act
-            var result = await Appointments.GetAllAppointmentAsync() as OkObjectResult;
+            var result = Appointments.GetAllAppointment() as OkObjectResult;
             // Assert
             Assert.Equal(result?.StatusCode, 200);
             Assert.IsType<List<AppointmentList>>(result?.Value);
@@ -32,7 +31,7 @@ namespace DisprzTraining.Tests
         // The test is also using an instance of "AppointmentsBL" (business layer) class to get the list of appointments by date.
         //Get appointment gy date
         [Fact]
-        public async Task GetAppointmenByDateAsync_Returns_200_Success()
+        public void GetAppointmenByDate_Returns_200_Success()
         {
             // Arrange
             IAppointmentsBL AppointmentsBL = new AppointmentsBL();
@@ -40,7 +39,7 @@ namespace DisprzTraining.Tests
 
             // Act
             var result =
-                await Appointments.GetAppointmentsByDateAsync(new DateTime(2023, 1, 12, 6, 33, 19))
+                Appointments.GetAppointmentsByDate(new DateTime(2023, 1, 12, 6, 33, 19))
                 as OkObjectResult;
             // Assert
             Assert.Equal(result?.StatusCode, 200);
@@ -48,19 +47,18 @@ namespace DisprzTraining.Tests
             Assert.NotNull(result);
         }
 
-        //The test is checking that the method returns a status code of 404, indicating that the requested resource could not be found, and that the returned value is of the correct type and has the correct message.
+        //The test is checking that the method returns a status code of 404, indicating that the requested resource could not be found,
+        //And that the returned value is of the correct type and has the correct message.
         //The test is also using an instance of "AppointmentsBL" (business layer) class to get the list of appointments by date.
         [Fact]
-        public async Task GetAppointmenByDateAsync_Returns_404_NotFound()
+        public void GetAppointmenByDate_Returns_404_NotFound()
         {
             // Arrange
             IAppointmentsBL AppointmentsBL = new AppointmentsBL();
             AppointmentlistController Appointments = new(AppointmentsBL);
 
             // Act
-            var result = await Appointments.GetAppointmentsByDateAsync(
-                new DateTime(2023, 1, 13, 6, 33, 19)
-            );
+            var result = Appointments.GetAppointmentsByDate(new DateTime(2023, 1, 13, 6, 33, 19));
 
             // Assert
             result.Should().BeOfType<NotFoundObjectResult>();
@@ -69,8 +67,8 @@ namespace DisprzTraining.Tests
         }
 
         //ADD
-        //The test is checking that the method returns a status code of 400 (BadRequest), indicating that the request was invalid, when the start time of the appointment is greater than the end time.
-        //It is also using an instance of "AppointmentsBL" (business layer) class to add the appointment.
+        //The test is checking that the method returns a status code of 400 (BadRequest), indicating that the request was invalid,
+        //when the start time of the appointment is greater than the end time.It is also using an instance of "AppointmentsBL" (business layer) class to add the appointment.
         [Fact]
         public void AddAppointment_StartTimeGreaterThanEndTime_ReturnsBadRequest()
         {
@@ -95,8 +93,8 @@ namespace DisprzTraining.Tests
             );
         }
 
-        //The test is checking that the method returns a status code of 400 (BadRequest), indicating that the request was invalid, when the start time of the appointment is equal to the end time.
-        //It is also using an instance of "AppointmentsBL" (business layer) class to add the appointment.
+        //The test is checking that the method returns a status code of 400 (BadRequest), indicating that the request was invalid,
+        //when the start time of the appointment is equal to the end time.
         [Fact]
         public void AddAppointment_StartTimeEqualToEndTime_ReturnsBadRequest()
         {
@@ -144,7 +142,8 @@ namespace DisprzTraining.Tests
             Assert.Equal("Appointment created successfully", createdResult.Value);
         }
 
-        //The test is checking that the method returns a status code of 409 (Conflict), indicating that the request could not be completed due to a conflict with the current state of the resource.
+        //The test is checking that the method returns a status code of 409 (Conflict),
+        //Indicating that the request could not be completed due to a conflict with the current state of the resource.
         // Specifically,the test is checking the scenario when an appointment already exists at the same date and time.
         [Fact]
         public void AddAppointment_AppointmentAlreadyExist_ReturnsConflict()
@@ -171,8 +170,8 @@ namespace DisprzTraining.Tests
         }
 
         //PATCH
-        // The test is checking that the method returns a status code of 400 (BadRequest), indicating that the request was invalid, when the start time of the appointment is greater than the end time.
-        //It is also using an instance of "AppointmentsBL" (business layer) class to update the appointment.
+        // The test is checking that the method returns a status code of 400 (BadRequest), indicating that the request was invalid,
+        //when the start time of the appointment is greater than the end time.
         [Fact]
         public void PatchAppointment_StartTimeGreaterThanEndTime_ReturnsBadRequest()
         {
@@ -201,7 +200,8 @@ namespace DisprzTraining.Tests
             );
         }
 
-        //The test is checking that the method returns a status code of 400 (BadRequest), indicating that the request was invalid, when the start time of the appointment is equal to the end time.
+        //The test is checking that the method returns a status code of 400 (BadRequest),
+        //Indicating that the request was invalid, when the start time of the appointment is equal to the end time.
         [Fact]
         public void PatchAppointment_StartTimeEqualToEndTime_ReturnsBadRequest()
         {
@@ -230,7 +230,9 @@ namespace DisprzTraining.Tests
             );
         }
 
-        //The test is checking that the method returns a status code of 201 (Created), indicating that an existing resource has been successfully updated, when the input is valid and appointment start time is less than end time.
+        //The test is checking that the method returns a status code of 201 (Created),
+        //Indicating that an existing resource has been successfully updated,
+        //when the input is valid and appointment start time is less than end time.
         [Fact]
         public void PatchAppointment_ValidInput_ReturnsCreated()
         {
@@ -255,7 +257,9 @@ namespace DisprzTraining.Tests
             Assert.Equal("Appointment updated successfully", createdResult.Value);
         }
 
-        //The test is checking that the method returns a status code of 409 (Conflict), indicating that the request could not be completed due to a conflict with the current state of the resource. Specifically, the test is checking the scenario when an appointment already exists at the same date and time.
+        //The test is checking that the method returns a status code of 409 (Conflict),
+        //Indicating that the request could not be completed due to a conflict with the current state of the resource.
+        //Specifically, the test is checking the scenario when an appointment already exists at the same date and time.
         [Fact]
         public void PatchAppointment_Returns_409()
         {
@@ -284,8 +288,8 @@ namespace DisprzTraining.Tests
         }
 
         //delete
-        //The test is checking that the method returns a status code of 200 (Ok) indicating that the request was successful, when the appointment is deleted successfully.
-        //It is also using an instance of "AppointmentsBL" (business layer) class to delete the appointment.
+        //The test is checking that the method returns a status code of 200 (Ok) indicating that the request was successful,
+        //when the appointment is deleted successfully.It is also using an instance of "AppointmentsBL" (business layer) class to delete the appointment.
         [Fact]
         public void DeleteAppointment_Returns_200()
         {
@@ -301,7 +305,8 @@ namespace DisprzTraining.Tests
             Assert.IsType<OkResult>(result);
         }
 
-        //The test is checking that the method returns a status code of 404 (Not Found) indicating that the requested resource could not be found, when the id passed to the method is not found in the list of appointments.
+        //The test is checking that the method returns a status code of 404 (Not Found) indicating that the requested resource could not be found,
+        // when the id passed to the method is not found in the list of appointments.
         [Fact]
         public void DeleteAppointment_Returns_404()
         {
@@ -319,4 +324,4 @@ namespace DisprzTraining.Tests
             );
         }
     }
- }
+}
