@@ -4,7 +4,7 @@ namespace DisprzTraining.Business
 {
     public class AppointmentsBL : IAppointmentsBL
     {
-        public  static List<AppointmentList> allAppointmentList = new List<AppointmentList>()
+        public static List<AppointmentList> allAppointmentList = new List<AppointmentList>()
         {
             new AppointmentList()
             {
@@ -35,155 +35,113 @@ namespace DisprzTraining.Business
         };
 
         public static List<AppointmentList> filteredAppointmentList = new List<AppointmentList> { };
-        public int count { get; set; }
-        public DateTime middleTime { get; set; }
 
         //Retrieves all appointments in the list asynchronously.
         //The task result contains a list of appointments sorted by appointment date.
-        public async Task<List<AppointmentList>> GetAllAppointmentInListAsync()
+        public List<AppointmentList> GetAllAppointmentInList()
         {
-            allAppointmentList.Sort((x, y) => x.appointmentStartTime.CompareTo(y.appointmentStartTime));
-            return await Task.FromResult(allAppointmentList);
+            allAppointmentList.Sort(
+                (x, y) => x.appointmentStartTime.CompareTo(y.appointmentStartTime)
+            );
+            return allAppointmentList;
         }
 
         ///Retrieves appointments by date in the list asynchronously.
         //The task result contains a list of appointments filtered by the specified date and sorted by appointment start time.
-        public async Task<List<AppointmentList>> GetAppointmentByDateInListAsync(DateTime date)
+        public List<AppointmentList> GetAppointmentByDateInList(DateTime date)
         {
             filteredAppointmentList = allAppointmentList
-                .Where(
+                .FindAll(
                     appointment =>
                         String.Format("{0:d}", appointment.appointmentDate)
                         == String.Format("{0:d}", date)
                 )
                 .OrderBy(appointment => appointment.appointmentStartTime)
                 .ToList();
-            return await Task.FromResult(filteredAppointmentList);
+            return filteredAppointmentList;
         }
 
         // Adds an appointment to the list.
-        // A Boolean value indicating whether the appointment was successfully added (True) or if the appointment conflicts with an existing appointment (False).
+        // A Boolean value indicating whether the appointment was successfully added (True) or
+        //If the appointment conflicts with an existing appointment (False).
         public Boolean AddAppointmentInList(AppointmentList addAppointmentValue)
         {
             filteredAppointmentList = allAppointmentList
-                .Where(
+                .FindAll(
                     appointment =>
                         String.Format("{0:d}", appointment.appointmentDate)
                         == String.Format("{0:d}", addAppointmentValue.appointmentDate)
                 )
                 .ToList();
 
-            middleTime = addAppointmentValue.appointmentStartTime.AddMinutes(
-                (
-                    addAppointmentValue.appointmentEndTime.Minute
-                    + 2
-                    - addAppointmentValue.appointmentStartTime.Minute
-                ) / 2
-            );
-
             var checkList = filteredAppointmentList.Any(
-                num =>
-                    (
-                        (middleTime > num.appointmentStartTime)
-                            && (middleTime < num.appointmentEndTime)
-                        || (
-                            addAppointmentValue.appointmentStartTime > num.appointmentStartTime
-                                && addAppointmentValue.appointmentStartTime < num.appointmentEndTime
-                            || addAppointmentValue.appointmentEndTime > num.appointmentStartTime
-                                && addAppointmentValue.appointmentEndTime < num.appointmentEndTime
-                        )
-                        || (
-                            num.appointmentStartTime > addAppointmentValue.appointmentStartTime
-                                && num.appointmentStartTime < addAppointmentValue.appointmentEndTime
-                            || num.appointmentEndTime > addAppointmentValue.appointmentStartTime
-                                && num.appointmentEndTime < addAppointmentValue.appointmentEndTime
-                        )
+                appointment =>
+                    CheckCondition(
+                        addAppointmentValue.appointmentStartTime,
+                        addAppointmentValue.appointmentEndTime,
+                        appointment.appointmentStartTime,
+                        appointment.appointmentEndTime
                     )
             );
+
             if (!checkList)
             {
                 allAppointmentList.Add(addAppointmentValue);
                 return (true);
             }
             else
-            {
                 return (false);
-            }
+        }
+
+        //The CheckCondition method is a function that takes four DateTime parameters: newStartTime, newEndTime, StartTime, and EndTime.
+        //These parameters represent the start and end times of two appointments that the method will compare to determine if they are overlapping.
+        //The method first calculates the middle time of the new appointment by adding the difference between the end
+        //And start minutes of the new appointment, divided by 2, to the start time of the new appointment.
+        // If any of these conditions are true, the method will return true, indicating that the appointments are overlapping.
+        // If none of these conditions are true, the method will return false, indicating that the appointments are not overlapping.
+        public Boolean CheckCondition(
+            DateTime newStartTime,
+            DateTime newEndTime,
+            DateTime startTime,
+            DateTime endTime
+        )
+        {
+            return (newStartTime < endTime && newEndTime > startTime);
         }
 
         // Updates an appointment in the list.
-        //A Boolean value indicating whether the appointment was successfully updated (True) or if the updated appointment conflicts with an existing appointment (False).
+        //A Boolean value indicating whether the appointment was successfully updated (True) or
+        //If the updated appointment conflicts with an existing appointment (False).
         public Boolean patchAppointmentsInList(PatchAppointmentList patchAppointmentValue)
         {
             filteredAppointmentList = allAppointmentList
-                .Where(
+                .FindAll(
                     appointment =>
                         String.Format("{0:d}", appointment.appointmentDate)
                         == String.Format("{0:d}", patchAppointmentValue.patchAppointmentDate)
                 )
                 .ToList();
 
-            middleTime = patchAppointmentValue.patchAppointmentStartTime.AddMinutes(
-                (
-                    patchAppointmentValue.patchAppointmentEndTime.Minute
-                    + 2
-                    - patchAppointmentValue.patchAppointmentStartTime.Minute
-                ) / 2
+            var checkList = filteredAppointmentList.Any(
+                appointment =>
+                    appointment.id != patchAppointmentValue.patchId
+                    && CheckCondition(
+                        patchAppointmentValue.patchAppointmentStartTime,
+                        patchAppointmentValue.patchAppointmentEndTime,
+                        appointment.appointmentStartTime,
+                        appointment.appointmentEndTime
+                    )
             );
 
-            foreach (var num in filteredAppointmentList)
+            var appointment = allAppointmentList.Find(x => x.id == patchAppointmentValue.patchId);
+
+            if (!checkList && appointment != null)
             {
-                if (num.id == patchAppointmentValue.patchId)
-                {
-                    continue;
-                }
-                else
-                {
-                    if (
-                        (middleTime > num.appointmentStartTime)
-                            && (middleTime < num.appointmentEndTime)
-                        || (
-                            patchAppointmentValue.patchAppointmentStartTime
-                                > num.appointmentStartTime
-                                && patchAppointmentValue.patchAppointmentStartTime
-                                    < num.appointmentEndTime
-                            || patchAppointmentValue.patchAppointmentEndTime
-                                > num.appointmentStartTime
-                                && patchAppointmentValue.patchAppointmentEndTime
-                                    < num.appointmentEndTime
-                        )
-                        || (
-                            num.appointmentStartTime
-                                > patchAppointmentValue.patchAppointmentStartTime
-                                && num.appointmentStartTime
-                                    < patchAppointmentValue.patchAppointmentEndTime
-                            || num.appointmentEndTime
-                                > patchAppointmentValue.patchAppointmentStartTime
-                                && num.appointmentEndTime
-                                    < patchAppointmentValue.patchAppointmentEndTime
-                        )
-                    )
-                    {
-                        count++;
-                        break;
-                    }
-                }
-            }
-            if (count == 0)
-            {
-                //The FirstOrDefault is short-circuiting, meaning it will stop searching for an element as soon as it finds a match
-                var num1 = allAppointmentList.FirstOrDefault(
-                    x => x.id == patchAppointmentValue.patchId
-                );
-                if (num1 != null)
-                {
-                    num1.appointmentStartTime = patchAppointmentValue.patchAppointmentStartTime;
-                    num1.appointmentEndTime = patchAppointmentValue.patchAppointmentEndTime;
-                    num1.appointmentContent = patchAppointmentValue.patchAppointmentContent;
-                    num1.color = patchAppointmentValue.patchColor;
-                    num1.appointmentStatus = patchAppointmentValue.patchAppointmentStatus;
-                }
-                count = 0;
+                appointment.appointmentStartTime = patchAppointmentValue.patchAppointmentStartTime;
+                appointment.appointmentEndTime = patchAppointmentValue.patchAppointmentEndTime;
+                appointment.appointmentContent = patchAppointmentValue.patchAppointmentContent;
+                appointment.color = patchAppointmentValue.patchColor;
+                appointment.appointmentStatus = patchAppointmentValue.patchAppointmentStatus;
                 return true;
             }
             else
@@ -197,17 +155,14 @@ namespace DisprzTraining.Business
         public Boolean DeleteAppointmentById(string deleteId)
         {
             //It returns the index of the first element in the collection that matches the specified condition, or -1 if no element is found.
-            var index = allAppointmentList.FindIndex(x => x.id == deleteId);
+            var index = allAppointmentList.FindIndex(appointment => appointment.id == deleteId);
 
             if (index == -1)
-            {
                 return false;
-            }
             else
-            {
+
                 allAppointmentList.RemoveAt(index);
-                return true;
-            }
+            return true;
         }
     }
 }
