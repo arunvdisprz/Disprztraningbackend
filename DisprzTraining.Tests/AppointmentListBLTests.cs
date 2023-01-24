@@ -1,15 +1,6 @@
 using DisprzTraining.Business;
-using DisprzTraining.Controllers;
 using DisprzTraining.Models;
-using Microsoft.AspNetCore.Mvc;
-using Moq;
 using Xunit;
-using FluentAssertions;
-using System;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DisprzTraining.Tests
 {
@@ -18,12 +9,12 @@ namespace DisprzTraining.Tests
         //The test is checking that the method returns a list of type "AppointmentList" when it is called.
         //This method is using the AppointmentsBL class to get all the appointments.
         [Fact]
-        public async Task Test_GetAllAppointmentInListAsync()
+        public void Test_GetAllAppointmentInList()
         {
             var appointmentsBL = new AppointmentsBL();
 
             // Act
-            var result = await appointmentsBL.GetAllAppointmentInListAsync();
+            var result = appointmentsBL.GetAllAppointmentInList();
 
             // Assert
             Assert.IsType<List<AppointmentList>>(result);
@@ -32,28 +23,29 @@ namespace DisprzTraining.Tests
         //The test is checking that the method returns the expected number of appointments on the given date.
         //The method takes a single parameter, a date, which is used to identify the appointments that need to be retrieved.
         [Fact]
-        public async Task Test_GetAppointmentByDateInListAsync()
+        public void Test_GetAppointmentByDateInList()
         {
             var appointmentsBL = new AppointmentsBL();
 
             // Act
-            var result = await appointmentsBL.GetAppointmentByDateInListAsync(
+            var result = appointmentsBL.GetAppointmentByDateInList(
                 new DateTime(2023, 1, 12, 6, 33, 19)
             );
 
             // Assert
             Assert.Equal(2, result.Count);
+            Assert.IsType<List<AppointmentList>>(result);
         }
 
         //The test is checking that the method returns zero appointments if there is no appointment on the passed date.
         //The method takes a single parameter, a date, which is used to identify the appointments that need to be retrieved.
         [Fact]
-        public async Task Test_GetAppointmentByDateInListAsync_zero()
+        public void Test_GetAppointmentByDateInList_zero()
         {
             var appointmentsBL = new AppointmentsBL();
 
             // Act
-            var result = await appointmentsBL.GetAppointmentByDateInListAsync(
+            var result = appointmentsBL.GetAppointmentByDateInList(
                 new DateTime(2023, 1, 13, 6, 33, 19)
             );
 
@@ -101,8 +93,222 @@ namespace DisprzTraining.Tests
             Assert.False(result);
         }
 
-        //f the patchId does exist, the method updates the details of the appointment with the new values provided in the PatchAppointmentList object.
-        // The method then returns true to indicate that the update was successful.
+        // The new appointment starts at the current time and ends at 2 hours later, and the existing appointment starts 30 minutes later and ends 3 hours later.
+        //As the new appointment starts before the existing appointment ends, so it should return true, which is expected.
+        [Fact]
+        public void CheckCondition_OverlappingAppointments_ReturnsTrue()
+        {
+            // Arrange
+            var newStartTime = DateTime.Now;
+            var newEndTime = DateTime.Now.AddHours(2);
+            var startTime = DateTime.Now.AddMinutes(30);
+            var endTime = DateTime.Now.AddHours(3);
+            var appointmentsBL = new AppointmentsBL();
+            // Act
+            Boolean result = appointmentsBL.CheckCondition(
+                newStartTime,
+                newEndTime,
+                startTime,
+                endTime
+            );
+
+            // Assert
+            Assert.True(result);
+        }
+
+        //In this test case, it is ensured that the newStartTime is set 3 hours after the current time, and the newEndTime is set 4 hours after the current time.
+        //Similarly, the startTime is set to the current time and the endTime is set 2 hours after the current time. This ensures that the newStartTime
+        //And newEndTime are not overlapping with the startTime and endTime.
+        [Fact]
+        public void CheckCondition_NonOverlappingAppointments_ReturnsFalse()
+        {
+            // Arrange
+            var newStartTime = DateTime.Now.AddHours(3);
+            var newEndTime = DateTime.Now.AddHours(4);
+            var startTime = DateTime.Now;
+            var endTime = DateTime.Now.AddHours(2);
+            var appointmentsBL = new AppointmentsBL();
+            // Act
+            Boolean result = appointmentsBL.CheckCondition(
+                newStartTime,
+                newEndTime,
+                startTime,
+                endTime
+            );
+            // Assert
+            Assert.False(result);
+        }
+
+        //In this test case, it is ensured that the newStartTime is set 3 hours after the current time, and the newEndTime is set 4 hours after the current time.
+        //Similarly, the startTime is set to the current time and the endTime is set 2 hours after the current time. This configuration ensures that the newStartTime
+        //And newEndTime are not overlapping with the startTime and endTime.
+        [Fact]
+        public void CheckCondition_NewStartTimeEqualToEndTime_ReturnsFalse()
+        {
+            // Arrange
+            var newStartTime = DateTime.Now;
+            var newEndTime = DateTime.Now.AddHours(-2);
+            var startTime = DateTime.Now.AddHours(2);
+            var endTime = DateTime.Now;
+            var appointmentsBL = new AppointmentsBL();
+            // Act
+            Boolean result = appointmentsBL.CheckCondition(
+                newStartTime,
+                newEndTime,
+                startTime,
+                endTime
+            );
+
+            // Assert
+            Assert.False(result);
+        }
+
+        //The test arranges by setting the "newStartTime" to 2 hours before the current time, the "newEndTime" to the current time,
+        // the "startTime" to the current time and the "endTime" to 2 hours after the current time. The "CheckCondition" method is then called with these values as the input and the output is stored in the "result" variable.
+        // The test asserts that the "result" variable should be "False", indicating that the new start time and new end time are not overlapping with the start time and end time.
+        [Fact]
+        public void CheckCondition_NewEndTimeEqualToStartTime_ReturnsFalse()
+        {
+            // Arrange
+            var newStartTime = DateTime.Now.AddHours(-2);
+            var newEndTime = DateTime.Now;
+            var startTime = DateTime.Now;
+            var endTime = DateTime.Now.AddHours(2);
+            var appointmentsBL = new AppointmentsBL();
+            // Act
+            Boolean result = appointmentsBL.CheckCondition(
+                newStartTime,
+                newEndTime,
+                startTime,
+                endTime
+            );
+            // Assert
+            Assert.False(result);
+        }
+
+        //The test arranges by setting the "newStartTime" to 3 hours after the current time, the "newEndTime" to 4 hours after the current time,
+        // the "startTime" to the current time and the "endTime" to 2 hours after the current time. The "CheckCondition" method is then called with these values as the input and the output is stored in the "result" variable.
+        //The test asserts that the "result" variable should be "False", indicating that the new start time is greater than the end time and it is  a valid input.
+        [Fact]
+        public void CheckCondition_NewStartTimeGreaterThanEndTime_ReturnsFalse()
+        {
+            // Arrange
+            var newStartTime = DateTime.Now.AddHours(3);
+            var newEndTime = DateTime.Now.AddHours(4);
+            var startTime = DateTime.Now;
+            var endTime = DateTime.Now.AddHours(2);
+            var appointmentsBL = new AppointmentsBL();
+            // Act
+            Boolean result = appointmentsBL.CheckCondition(
+                newStartTime,
+                newEndTime,
+                startTime,
+                endTime
+            );
+            // Assert
+            Assert.False(result);
+        }
+
+        //The test arranges by setting the "newStartTime" to the current time,
+        // the "newEndTime" to 1 hour after the current time, the "startTime" to 2 hours after the current time and the "endTime" to 3 hours after the current time.
+        //The "CheckCondition" method is then called with these values as the input and the output is stored in the "result" variable.
+        // The test asserts that the "result" variable should be "False", indicating that the new end time is less than the start time and it is a valid input.
+        [Fact]
+        public void CheckCondition_NewEndTimeLessThanStartTime_ReturnsFalse()
+        {
+            // Arrange
+            var newStartTime = DateTime.Now;
+            var newEndTime = DateTime.Now.AddHours(1);
+            var startTime = DateTime.Now.AddHours(2);
+            var endTime = DateTime.Now.AddHours(3);
+            var appointmentsBL = new AppointmentsBL();
+            // Act
+            Boolean result = appointmentsBL.CheckCondition(
+                newStartTime,
+                newEndTime,
+                startTime,
+                endTime
+            );
+            // Assert
+            Assert.False(result);
+        }
+
+        //The new end time set to 1 hour after the current time, the existing start time set to 2 hours after the current time,
+        //And the existing end time set to 3 hours after the current time.
+        //This test is checking that the CheckCondition method is working as expected,
+        // when the new start and end times are not equal to the start and end times that are being passed as arguments, it should return false.
+        [Fact]
+        public void CheckCondition_NewStartAndEndTimeEqualToStartAndEndTime_ReturnsTrue()
+        {
+            // Arrange
+            var newStartTime = DateTime.Now;
+            var newEndTime = DateTime.Now.AddHours(2);
+            var startTime = DateTime.Now;
+            var endTime = DateTime.Now.AddHours(2);
+            var appointmentsBL = new AppointmentsBL();
+            // Act
+            Boolean result = appointmentsBL.CheckCondition(
+                newStartTime,
+                newEndTime,
+                startTime,
+                endTime
+            );
+
+            // Assert
+            Assert.True(result);
+        }
+
+        //The new end time set to 3 hours after the current time, the existing start time set to the current time,
+        //And the existing end time set to 2 hours after the current time.
+        //This test is checking that the CheckCondition method is working as expected,
+        // when the new start time is equal to the existing start time and the new end time is greater than the existing end time, it should return true.
+        [Fact]
+        public void CheckCondition_NewStartTimeEqualToStartTimeAndNewEndTimeGreaterThanEndTime_ReturnsTrue()
+        {
+            // Arrange
+            var newStartTime = DateTime.Now;
+            var newEndTime = DateTime.Now.AddHours(3);
+            var startTime = DateTime.Now;
+            var endTime = DateTime.Now.AddHours(2);
+            var appointmentsBL = new AppointmentsBL();
+            // Act
+            Boolean result = appointmentsBL.CheckCondition(
+                newStartTime,
+                newEndTime,
+                startTime,
+                endTime
+            );
+            // Assert
+            Assert.True(result);
+        }
+
+        //The new start time set to 30 minutes before the current time, the new end time set to 2 hours after the current time,
+        //the existing start time set to the current time, and the existing end time set to 2 hours after the current time.
+        //This test is checking that the CheckCondition method is working as expected,
+        //when the new start time is less than the existing start time and the new end time is equal to the existing end time, it should return true.
+        [Fact]
+        public void CheckCondition_NewStartTimeLessThanStartTimeAndNewEndTimeEqualToEndTime_ReturnsTrue()
+        {
+            // Arrange
+            var newStartTime = DateTime.Now.AddMinutes(-30);
+            var newEndTime = DateTime.Now.AddHours(2);
+            var startTime = DateTime.Now;
+            var endTime = DateTime.Now.AddHours(2);
+            var appointmentsBL = new AppointmentsBL();
+            // Act
+            Boolean result = appointmentsBL.CheckCondition(
+                newStartTime,
+                newEndTime,
+                startTime,
+                endTime
+            );
+
+            // Assert
+            Assert.True(result);
+        }
+
+        //If the patchId does exist, the method updates the details of the appointment with the new values provided in the PatchAppointmentList object.
+        //The method then returns true to indicate that the update was successful.
         [Fact]
         public void PatchAppointmentsInList_ValidInput_UpdatesAppointment()
         {
