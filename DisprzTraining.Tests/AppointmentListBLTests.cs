@@ -149,6 +149,31 @@ namespace DisprzTraining.Tests
             Assert.False(result);
         }
 
+        //The test creates a new "PatchAppointmentList" object and assigns values to its properties, including a patchId with a specific value.
+        //The "patchAppointmentsInList" function is then called with the created object as a parameter, and the returned result is asserted to be false.
+        //This test is likely checking that the "patchAppointmentsInList" function returns false when it is passed an invalid id.
+        [Fact]
+        public void PatchAppointmentsInList_InValidId_UpdatesAppointment()
+        {
+            // Arrange
+            var appointment = new PatchAppointmentList()
+            {
+                patchName = "string",
+                patchId = "a06ac7bd-1b6c-4443-a499",
+                patchAppointmentDate = new DateTime(2023, 1, 12, 6, 33, 19),
+                patchAppointmentStartTime = new DateTime(2023, 1, 12, 13, 33, 19),
+                patchAppointmentEndTime = new DateTime(2023, 1, 12, 14, 33, 19),
+                patchAppointmentContent = "string",
+                patchColor = "string"
+            };
+            var appointmentsBL = new AppointmentsBL();
+            // Act
+            var result = appointmentsBL.patchAppointmentsInList(appointment);
+
+            // Assert
+            Assert.False(result);
+        }
+
         //This test that is focused on testing the functionality of the DeleteAppointmentById method in isolation.
         //The test creates an instance of the AppointmentsBL class, calls the DeleteAppointmentById method passing in a hardcoded appointment ID as an argument
         //And then asserts that the method returns true.
