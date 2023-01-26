@@ -16,10 +16,13 @@ namespace DisprzTraining.Controllers
         }
 
         /// <summary>
-        /// Get all appointments
+        /// Retrieves all appointments from the database and returns them as a list.
         /// </summary>
-
+        /// <returns>A list of all appointments in the database.</returns>
         /// <response code="200"> Returns a list of appointments that the user created</response>
+        /// <example>
+        /// GET: /appointment
+        /// </example>
         [HttpGet("/appointment")]
         public IActionResult GetAllAppointment()
         {
@@ -28,18 +31,15 @@ namespace DisprzTraining.Controllers
         }
 
         /// <summary>
-        /// Get appointments gy date
+        /// Retrieves all appointments scheduled for the specified date.
         /// </summary>
-
-        ///<remarks>
-        /// Sample request:
-        ///
-        ///      date : 2023-01-08
-        ///
-        /// </remarks>
-
-        /// <response code="200"> Returns a list of appointments that the user created on a particular date</response>
-        /// <response code="404"> Returns no appointment found on a particular date </response>
+        /// <param name="date">The date for which to retrieve appointments (in the format "yyyy-MM-dd").</param>
+        /// <returns>A list of appointments scheduled for the specified date, or a "404 Not Found" error if no appointments are found.</returns>
+        /// <response code="200">Returns the list of appointments scheduled for the specified date.</response>
+        /// <response code="404">If no appointments are found for the specified date.</response>
+        /// <example>
+        /// GET: /appointment/2022-01-01
+        /// </example>
         [HttpGet("/appointment/{date}")]
         public IActionResult GetAppointmentsByDate(DateTime date)
         {
@@ -51,31 +51,30 @@ namespace DisprzTraining.Controllers
         }
 
         /// <summary>
-        /// Post a new appointment
+        /// Adds a new appointment to the list.
         /// </summary>
-        /// <returns></returns>
-
-        /// <remarks>
-        /// Sample request:
-        ///
-        ///     {
-        ///       "name": "string",
-        ///       "id": "string",
-        ///       "appointmentDate": "2023-01-19T07:23:12.763Z",
-        ///       "appointmentStartTime": "2023-01-19T07:23:12.763Z",
-        ///       "appointmentEndTime": "2023-01-19T09:23:12.763Z",
-        ///       "appointmentContent": "string",
-        ///       "location": "string",
-        ///       "description": "string",
-        ///       "color": "string",
-        ///       "appointmentStatus": true
-        ///      }
-        ///
-        /// </remarks>
-
-        /// <response code="201">Returns appointment created successfully</response>
-        /// <response code="400">Returns bad request because of appointment start time greater than or equal to end time</response>
-        /// <response code="409">Returns conflict because of already have a appointment at this particular time</response>\
+        /// <param name="addAppointmentValue">The details of the appointment to add.</param>
+        /// <returns>A status message indicating the outcome of the operation.</returns>
+        /// <response code="201">The appointment was created successfully.</response>
+        /// <response code="400">If the start time is equal to or greater than the end time of the appointment.</response>
+        /// <response code="409">If there is already an appointment scheduled during the same time.</response>
+        /// <response code="500">If there was an error adding the appointment.</response>
+        /// <example>
+        /// POST: /appointment
+        /// Body:
+        ///{
+        ///  "name": "Arun",
+        ///  "id": "a06ac7bd-1b6c-4443-a499-deccd3f35661",
+        ///  "appointmentDate": "2023-01-19T07:23:12.763Z",
+        ///  "appointmentStartTime": "2023-01-19T07:23:12.763Z",
+        ///  "appointmentEndTime": "2023-01-19T09:23:12.763Z",
+        ///  "appointmentContent": "Meet with mentor",
+        ///  "location": "G meet",
+        ///  "description": "Discuss about testcase ",
+        ///  "color": "#006bff",
+        ///  "appointmentStatus": true
+        ///}
+        /// </example>
         [HttpPost("/appointment")]
         public IActionResult AddAppointment(AppointmentList addAppointmentValue)
         {
@@ -96,36 +95,34 @@ namespace DisprzTraining.Controllers
                 if (_AppointmentsBL.AddAppointmentInList(addAppointmentValue))
                     return Created("", "Appointment created successfully");
                 else
-                    return Conflict("Already have a appointment at this particular time");
+                    return Conflict("Already have an appointment at in-between time");
             }
         }
 
         /// <summary>
-        /// update a exiting appointment
+        /// Updates an existing appointment in the list.
         /// </summary>
-        /// <returns></returns>
-
-        /// <remarks>
-        /// Sample request:
-        ///
-        ///     {
-        ///       "name": "string",
-        ///       "id": "string",
-        ///       "appointmentDate": "2023-01-19T07:23:12.763Z",
-        ///       "appointmentStartTime": "2023-01-19T07:23:12.763Z",
-        ///       "appointmentEndTime": "2023-01-19T09:23:12.763Z",
-        ///       "appointmentContent": "string",
-        ///       "location": "string",
-        ///       "description": "string",
-        ///       "color": "string",
-        ///       "appointmentStatus": true
-        ///      }
-        ///
-        /// </remarks>
-
-        /// <response code="201">Returns appointment updated successfully</response>
-        /// <response code="400">Returns bad request because of appointment start time greater than or equal to end time</response>
-        /// <response code="409">Returns conflict because of already have a appointment at this particular time</response>
+        /// <param name="patchAppointmentValue">The details of the appointment to update.</param>
+        /// <returns>A status message indicating the outcome of the operation.</returns>
+        /// <response code="200">The appointment was updated successfully.</response>
+        /// <response code="400">If the start time is equal to or greater than the end time of the appointment.</response>
+        /// <response code="409">If there is already an appointment scheduled during the same time.</response>
+        /// <example>
+        /// PATCH: /appointment
+        /// Body:
+        /// {
+        ///  "name": "Arun",
+        ///  "id": "a06ac7bd-1b6c-4443-a499-deccd3f35661",
+        ///  "appointmentDate": "2023-01-19T07:23:12.763Z",
+        ///  "appointmentStartTime": "2023-01-19T07:23:12.763Z",
+        ///  "appointmentEndTime": "2023-01-19T09:23:12.763Z",
+        ///  "appointmentContent": "Meet with patrick",
+        ///  "location": "G meet",
+        ///  "description": "Discuss about testcase ",
+        ///  "color": "#006bff",
+        ///  "appointmentStatus": true
+        ///}
+        /// </example>
         [HttpPatch("/appointment")]
         public IActionResult PatchAppointment(PatchAppointmentList patchAppointmentValue)
         {
@@ -149,28 +146,25 @@ namespace DisprzTraining.Controllers
                 if (_AppointmentsBL.patchAppointmentsInList(patchAppointmentValue))
                     return Created("", "Appointment updated successfully");
                 else
-                    return Conflict("Already have a appointment at this particular time");
+                    return Conflict("Already have an appointment at in-between time");
             }
         }
 
         /// <summary>
-        /// Deletes an existing appointment by id.
+        /// Delete an appointment from the list
         /// </summary>
-
-        /// <remarks>
-        /// Sample request:
-        ///
-        ///        id: a06ac7bd-1b6c-4443-a499-deccd3f35660
-        ///
-        /// </remarks>
-
+        /// <param name="appointmentId">The unique identifier of the appointment to delete</param>
+        /// <returns>A status message indicating the outcome of the operation.</returns>
         /// <response code="200">Appointment in a list deleted successfully.</response>
         /// <response code="404">Given appointment id is not found in the list.</response>
-        [HttpDelete("/appointment/{deleteId}")]
-        public IActionResult DeleteAppointment(string deleteId)
+        /// <example>
+        /// DELETE: /appointment/a06ac7bd-1b6c-4443-a499-deccd3f35661
+        /// </example>
+        [HttpDelete("/appointment/{appointmentId}")]
+        public IActionResult DeleteAppointment(string appointmentId)
         {
-            if (_AppointmentsBL.DeleteAppointmentById(deleteId))
-                return Ok();
+            if (_AppointmentsBL.DeleteAppointmentById(appointmentId))
+                return Ok("Appointment deleted successfully");
             else
                 return NotFound("Given appointment id is not found in the list");
         }
