@@ -31,6 +31,19 @@ namespace DisprzTraining.Business
                 description = "nil",
                 color = "#ff0055",
                 appointmentStatus = true
+            },
+            new AppointmentList()
+            {
+                name = "Arun",
+                id = "a06ac7bd-1b6c-4443-a499-deccd3f35663",
+                appointmentDate = new DateTime(2023, 1, 25),
+                appointmentStartTime = new DateTime(2023, 1, 12, 13, 00, 00),
+                appointmentEndTime = new DateTime(2023, 1, 12, 13, 59, 00),
+                appointmentContent = "QA Session",
+                location = "G meet",
+                description = "nil",
+                color = "#ff0055",
+                appointmentStatus = true
             }
         };
 
@@ -177,7 +190,6 @@ namespace DisprzTraining.Business
             if (index == -1)
                 return false;
             else
-
                 allAppointmentList.RemoveAt(index);
             return true;
         }
