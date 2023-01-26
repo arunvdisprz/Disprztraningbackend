@@ -52,19 +52,19 @@ namespace DisprzTraining.Tests
         /// And that the returned value is of the correct type and has the correct message.
         /// </summary>
         [Fact]
-        public void GetAppointmenByDate_Appointmentdat_ReturnsNotFound()
+        public void GetAppointmenByDate_Appointmentdate_ReturnsNotFound()
         {
             // Arrange
             IAppointmentsBL AppointmentsBL = new AppointmentsBL();
             AppointmentlistController Appointments = new(AppointmentsBL);
 
             // Act
-            var result = Appointments.GetAppointmentsByDate(new DateTime(2023, 1, 13, 6, 33, 19));
+            var result = Appointments.GetAppointmentsByDate(new DateTime(2022, 1, 13, 6, 33, 19));
 
             // Assert
             result.Should().BeOfType<NotFoundObjectResult>();
             var notFoundObjectResult = Assert.IsType<NotFoundObjectResult>(result);
-            Assert.Equal("No appointments found", notFoundObjectResult.Value);
+            Assert.Equal("No appointments were found", notFoundObjectResult.Value);
         }
 
         /// <summary>
@@ -90,7 +90,7 @@ namespace DisprzTraining.Tests
             // Assert
             var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
             Assert.Equal(
-                "Given appointment start time greater than appointment end time",
+                "Appointment end time must be greater than the start time",
                 badRequestResult.Value
             );
         }
@@ -118,7 +118,7 @@ namespace DisprzTraining.Tests
             // Assert
             var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
             Assert.Equal(
-                "Given the appointment start time and end time are equal",
+                "The appointment start and end times are the same",
                 badRequestResult.Value
             );
         }
@@ -145,7 +145,7 @@ namespace DisprzTraining.Tests
 
             // Assert
             var createdResult = Assert.IsType<CreatedResult>(result);
-            Assert.Equal("Appointment created successfully", createdResult.Value);
+            Assert.Equal("The appointment has been successfully created", createdResult.Value);
         }
 
         /// <summary>
@@ -201,7 +201,7 @@ namespace DisprzTraining.Tests
             // Assert
             var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
             Assert.Equal(
-                "Given the appointment start time greater than appointment end time",
+                "Appointment end time must be greater than the start time",
                 badRequestResult.Value
             );
         }
@@ -233,7 +233,7 @@ namespace DisprzTraining.Tests
             // Assert
             var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
             Assert.Equal(
-                "Given the appointment start time and end time are equal",
+                "The appointment start and end times are the same",
                 badRequestResult.Value
             );
         }
@@ -264,7 +264,7 @@ namespace DisprzTraining.Tests
 
             // Assert
             var createdResult = Assert.IsType<CreatedResult>(result);
-            Assert.Equal("Appointment updated successfully", createdResult.Value);
+            Assert.Equal("The appointment has been successfully updated", createdResult.Value);
         }
 
         /// <summary>
@@ -311,7 +311,7 @@ namespace DisprzTraining.Tests
             var result = Appointments.DeleteAppointment("a06ac7bd-1b6c-4443-a499-deccd3f35660");
             // Assert
             var ObjectResult = Assert.IsType<OkObjectResult>(result);
-            Assert.Equal("Appointment deleted successfully", ObjectResult.Value);
+            Assert.Equal("The appointment has been successfully removed", ObjectResult.Value);
         }
 
         /// <summary>
@@ -330,7 +330,7 @@ namespace DisprzTraining.Tests
             // Assert
             var NotFoundObjectResult = Assert.IsType<NotFoundObjectResult>(result);
             Assert.Equal(
-                "Given appointment id is not found in the list",
+                "The appointment with the given ID could not be located in the list",
                 NotFoundObjectResult.Value
             );
         }

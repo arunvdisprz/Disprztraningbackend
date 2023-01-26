@@ -27,17 +27,17 @@ namespace DisprzTraining.Tests
         /// The method takes a single parameter, a date, which is used to identify the appointments that need to be retrieved.
         /// </summary>
         [Fact]
-        public void GetAppointmentByDateInList_Appointmentdate_ReturnsAppointmentList()
+        public void GetAppointmentByDateInList_AppointmentDate_ReturnsAppointmentList()
         {
             var appointmentsBL = new AppointmentsBL();
 
             // Act
             var result = appointmentsBL.GetAppointmentByDateInList(
-                new DateTime(2023, 1, 12, 6, 33, 19)
+                new DateTime(2023, 1, 25, 6, 33, 19)
             );
 
             // Assert
-            Assert.Equal(2, result.Count);
+            Assert.Equal(1, result.Count);
             Assert.IsType<List<AppointmentList>>(result);
         }
 
@@ -46,7 +46,7 @@ namespace DisprzTraining.Tests
         /// The method takes a single parameter, a date, which is used to identify the appointments that need to be retrieved.
         /// </summary>
         [Fact]
-        public void GetAppointmentByDateInList_Appointmentdate_Returnszero()
+        public void GetAppointmentByDateInList_AppointmentDate_ReturnsEmptyList()
         {
             var appointmentsBL = new AppointmentsBL();
 
@@ -336,11 +336,10 @@ namespace DisprzTraining.Tests
         }
 
         /// <summary>
-        /// If the patchId does exist, the method updates the details of the appointment with the new values provided in the PatchAppointmentList object.
         /// The method then returns true to indicate that the update was successful.
         /// </summary>
         [Fact]
-        public void PatchAppointmentsInList_ValidInput_UpdatesAppointment()
+        public void PatchAppointmentsInList_ValidInput_UpdatesReturnsTrue()
         {
             // Arrange
             var appointment = new PatchAppointmentList()
@@ -366,7 +365,7 @@ namespace DisprzTraining.Tests
         /// And returning False in those cases.
         /// </summary>
         [Fact]
-        public void PatchAppointmentsInList_InValidInput_UpdatesAppointment()
+        public void PatchAppointmentsInList_InValidInput_ReturnsFalse()
         {
             // Arrange
             var appointment = new PatchAppointmentList()
@@ -382,7 +381,6 @@ namespace DisprzTraining.Tests
             var appointmentsBL = new AppointmentsBL();
             // Act
             var result = appointmentsBL.patchAppointmentsInList(appointment);
-
             // Assert
             Assert.False(result);
         }
@@ -393,7 +391,7 @@ namespace DisprzTraining.Tests
         /// This test is likely checking that the "patchAppointmentsInList" function returns false when it is passed an invalid id.
         /// </summary>
         [Fact]
-        public void PatchAppointmentsInList_InValidId_UpdatesAppointment()
+        public void PatchAppointmentsInList_InValidId_ReturnsFalse()
         {
             // Arrange
             var appointment = new PatchAppointmentList()
@@ -420,7 +418,7 @@ namespace DisprzTraining.Tests
         /// And then asserts that the method returns true.
         /// </summary>
         [Fact]
-        public void DeleteAppointmentById_ValidInput_RemovesAppointment()
+        public void DeleteAppointmentById_ValidInput_ReturnsTrue()
         {
             // Arrange
             var appointmentsBL = new AppointmentsBL();
@@ -437,7 +435,7 @@ namespace DisprzTraining.Tests
         /// The test is checking whether the method is able to handle invalid inputs and return the appropriate response.
         /// </summary>
         [Fact]
-        public void DeleteAppointmentById_InValidInput_RemovesAppointment()
+        public void DeleteAppointmentById_InValidInput_ReturnsFalse()
         {
             // Arrange
             var appointmentsBL = new AppointmentsBL();
