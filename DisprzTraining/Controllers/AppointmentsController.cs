@@ -47,7 +47,7 @@ namespace DisprzTraining.Controllers
             if (appointments.Any())
                 return Ok(appointments);
             else
-                return NotFound("No appointments found");
+                return NotFound("No appointments were found");
         }
 
         /// <summary>
@@ -84,16 +84,16 @@ namespace DisprzTraining.Controllers
                     addAppointmentValue.appointmentStartTime
                     == addAppointmentValue.appointmentEndTime
                 )
-                    return BadRequest("Given the appointment start time and end time are equal");
+                    return BadRequest("The appointment start and end times are the same");
                 else
                     return BadRequest(
-                        "Given appointment start time greater than appointment end time"
+                        "Appointment end time must be greater than the start time"
                     );
             }
             else
             {
                 if (_AppointmentsBL.AddAppointmentInList(addAppointmentValue))
-                    return Created("", "Appointment created successfully");
+                    return Created("", "The appointment has been successfully created");
                 else
                     return Conflict("Already have an appointment at in-between time");
             }
@@ -135,16 +135,16 @@ namespace DisprzTraining.Controllers
                     patchAppointmentValue.patchAppointmentStartTime
                     == patchAppointmentValue.patchAppointmentEndTime
                 )
-                    return BadRequest("Given the appointment start time and end time are equal");
+                    return BadRequest("The appointment start and end times are the same");
                 else
                     return BadRequest(
-                        "Given the appointment start time greater than appointment end time"
+                        "Appointment end time must be greater than the start time"
                     );
             }
             else
             {
                 if (_AppointmentsBL.patchAppointmentsInList(patchAppointmentValue))
-                    return Created("", "Appointment updated successfully");
+                    return Created("", "The appointment has been successfully updated");
                 else
                     return Conflict("Already have an appointment at in-between time");
             }
@@ -156,7 +156,7 @@ namespace DisprzTraining.Controllers
         /// <param name="appointmentId">The unique identifier of the appointment to delete</param>
         /// <returns>A status message indicating the outcome of the operation.</returns>
         /// <response code="200">Appointment in a list deleted successfully.</response>
-        /// <response code="404">Given appointment id is not found in the list.</response>
+        /// <response code="404">The appointment with the given ID could not be located in the list.</response>
         /// <example>
         /// DELETE: /appointment/a06ac7bd-1b6c-4443-a499-deccd3f35661
         /// </example>
@@ -164,9 +164,9 @@ namespace DisprzTraining.Controllers
         public IActionResult DeleteAppointment(string appointmentId)
         {
             if (_AppointmentsBL.DeleteAppointmentById(appointmentId))
-                return Ok("Appointment deleted successfully");
+                return Ok("The appointment has been successfully removed");
             else
-                return NotFound("Given appointment id is not found in the list");
+                return NotFound("The appointment with the given ID could not be located in the list");
         }
     }
 }
