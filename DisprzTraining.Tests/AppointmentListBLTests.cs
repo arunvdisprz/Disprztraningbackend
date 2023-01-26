@@ -6,10 +6,12 @@ namespace DisprzTraining.Tests
 {
     public class AppointmentBLTests
     {
-        //The test is checking that the method returns a list of type "AppointmentList" when it is called.
-        //This method is using the AppointmentsBL class to get all the appointments.
+        /// <summary>
+        /// The test is checking that the method returns a list of type "AppointmentList" when it is called.
+        /// This method is using the AppointmentsBL class to get all the appointments.
+        /// </summary>
         [Fact]
-        public void Test_GetAllAppointmentInList()
+        public void GetAllAppointmentInList_ReturnsAppointmentList()
         {
             var appointmentsBL = new AppointmentsBL();
 
@@ -20,10 +22,12 @@ namespace DisprzTraining.Tests
             Assert.IsType<List<AppointmentList>>(result);
         }
 
-        //The test is checking that the method returns the expected number of appointments on the given date.
-        //The method takes a single parameter, a date, which is used to identify the appointments that need to be retrieved.
+        /// <summary>
+        /// The test is checking that the method returns the expected number of appointments on the given date.
+        /// The method takes a single parameter, a date, which is used to identify the appointments that need to be retrieved.
+        /// </summary>
         [Fact]
-        public void Test_GetAppointmentByDateInList()
+        public void GetAppointmentByDateInList_Appointmentdate_ReturnsAppointmentList()
         {
             var appointmentsBL = new AppointmentsBL();
 
@@ -37,10 +41,12 @@ namespace DisprzTraining.Tests
             Assert.IsType<List<AppointmentList>>(result);
         }
 
-        //The test is checking that the method returns zero appointments if there is no appointment on the passed date.
-        //The method takes a single parameter, a date, which is used to identify the appointments that need to be retrieved.
+        /// <summary>
+        /// The test is checking that the method returns zero appointments if there is no appointment on the passed date.
+        /// The method takes a single parameter, a date, which is used to identify the appointments that need to be retrieved.
+        /// </summary>
         [Fact]
-        public void Test_GetAppointmentByDateInList_zero()
+        public void GetAppointmentByDateInList_Appointmentdate_Returnszero()
         {
             var appointmentsBL = new AppointmentsBL();
 
@@ -53,10 +59,12 @@ namespace DisprzTraining.Tests
             Assert.Equal(0, result.Count);
         }
 
-        //The method takes a single parameter, an "appointment" object, which contains details about the appointment to be added.
-        // The test is checking that the method returns "true" after adding the appointment to the list.
+        /// <summary>
+        /// The method takes a single parameter, an "appointment" object, which contains details about the appointment to be added.
+        /// The test is checking that the method returns "true" after adding the appointment to the list.
+        /// </summary>
         [Fact]
-        public void Test_AddAppointmentInList_true()
+        public void AddAppointmentInList_ValidInput_ReturnsTrue()
         {
             // Arrange
             var appointment = new AppointmentList
@@ -73,10 +81,12 @@ namespace DisprzTraining.Tests
             Assert.True(result);
         }
 
-        //The test is checking that the method returns "false" after trying to add the appointment to the list.
-        //This test is testing the scenario when the method is called with an appointment object that is already exist in the list, it should return false.
+        /// <summary>
+        /// The test is checking that the method returns "false" after trying to add the appointment to the list.
+        /// This test is testing the scenario when the method is called with an appointment object that is already exist in the list, it should return false.
+        /// </summary>
         [Fact]
-        public void Test_AddAppointmentInList_false()
+        public void AddAppointmentInList_InValidInput_ReturnsFalse()
         {
             // Arrange
             var appointment = new AppointmentList
@@ -93,8 +103,10 @@ namespace DisprzTraining.Tests
             Assert.False(result);
         }
 
-        // The new appointment starts at the current time and ends at 2 hours later, and the existing appointment starts 30 minutes later and ends 3 hours later.
-        //As the new appointment starts before the existing appointment ends, so it should return true, which is expected.
+        /// <summary>
+        /// The new appointment starts at the current time and ends at 2 hours later, and the existing appointment starts 30 minutes later and ends 3 hours later.
+        /// As the new appointment starts before the existing appointment ends, so it should return true, which is expected.
+        /// </summary>
         [Fact]
         public void CheckCondition_OverlappingAppointments_ReturnsTrue()
         {
@@ -116,9 +128,11 @@ namespace DisprzTraining.Tests
             Assert.True(result);
         }
 
-        //In this test case, it is ensured that the newStartTime is set 3 hours after the current time, and the newEndTime is set 4 hours after the current time.
-        //Similarly, the startTime is set to the current time and the endTime is set 2 hours after the current time. This ensures that the newStartTime
-        //And newEndTime are not overlapping with the startTime and endTime.
+        /// <summary>
+        /// In this test case, it is ensured that the newStartTime is set 3 hours after the current time, and the newEndTime is set 4 hours after the current time.
+        /// Similarly, the startTime is set to the current time and the endTime is set 2 hours after the current time. This ensures that the newStartTime
+        /// And newEndTime are not overlapping with the startTime and endTime.
+        /// </summary>
         [Fact]
         public void CheckCondition_NonOverlappingAppointments_ReturnsFalse()
         {
@@ -139,9 +153,11 @@ namespace DisprzTraining.Tests
             Assert.False(result);
         }
 
-        //In this test case, it is ensured that the newStartTime is set 3 hours after the current time, and the newEndTime is set 4 hours after the current time.
-        //Similarly, the startTime is set to the current time and the endTime is set 2 hours after the current time. This configuration ensures that the newStartTime
-        //And newEndTime are not overlapping with the startTime and endTime.
+        /// <summary>
+        /// In this test case, it is ensured that the newStartTime is set 3 hours after the current time, and the newEndTime is set 4 hours after the current time.
+        /// Similarly, the startTime is set to the current time and the endTime is set 2 hours after the current time. This configuration ensures that the newStartTime
+        /// And newEndTime are not overlapping with the startTime and endTime.
+        /// </summary>
         [Fact]
         public void CheckCondition_NewStartTimeEqualToEndTime_ReturnsFalse()
         {
@@ -163,9 +179,11 @@ namespace DisprzTraining.Tests
             Assert.False(result);
         }
 
-        //The test arranges by setting the "newStartTime" to 2 hours before the current time, the "newEndTime" to the current time,
-        // the "startTime" to the current time and the "endTime" to 2 hours after the current time. The "CheckCondition" method is then called with these values as the input and the output is stored in the "result" variable.
-        // The test asserts that the "result" variable should be "False", indicating that the new start time and new end time are not overlapping with the start time and end time.
+        /// <summary>
+        /// The test arranges by setting the "newStartTime" to 2 hours before the current time, the "newEndTime" to the current time,
+        /// the "startTime" to the current time and the "endTime" to 2 hours after the current time. The "CheckCondition" method is then called with these values as the input and the output is stored in the "result" variable.
+        /// The test asserts that the "result" variable should be "False", indicating that the new start time and new end time are not overlapping with the start time and end time.
+        /// </summary>
         [Fact]
         public void CheckCondition_NewEndTimeEqualToStartTime_ReturnsFalse()
         {
@@ -186,9 +204,11 @@ namespace DisprzTraining.Tests
             Assert.False(result);
         }
 
-        //The test arranges by setting the "newStartTime" to 3 hours after the current time, the "newEndTime" to 4 hours after the current time,
-        // the "startTime" to the current time and the "endTime" to 2 hours after the current time. The "CheckCondition" method is then called with these values as the input and the output is stored in the "result" variable.
-        //The test asserts that the "result" variable should be "False", indicating that the new start time is greater than the end time and it is  a valid input.
+        /// <summary>
+        /// The test arranges by setting the "newStartTime" to 3 hours after the current time, the "newEndTime" to 4 hours after the current time,
+        /// The "startTime" to the current time and the "endTime" to 2 hours after the current time. The "CheckCondition" method is then called with these values as the input and the output is stored in the "result" variable.
+        /// The test asserts that the "result" variable should be "False", indicating that the new start time is greater than the end time and it is  a valid input.
+        /// </summary>
         [Fact]
         public void CheckCondition_NewStartTimeGreaterThanEndTime_ReturnsFalse()
         {
@@ -209,10 +229,12 @@ namespace DisprzTraining.Tests
             Assert.False(result);
         }
 
-        //The test arranges by setting the "newStartTime" to the current time,
-        // the "newEndTime" to 1 hour after the current time, the "startTime" to 2 hours after the current time and the "endTime" to 3 hours after the current time.
-        //The "CheckCondition" method is then called with these values as the input and the output is stored in the "result" variable.
-        // The test asserts that the "result" variable should be "False", indicating that the new end time is less than the start time and it is a valid input.
+        /// <summary>
+        /// The test arranges by setting the "newStartTime" to the current time,
+        /// The "newEndTime" to 1 hour after the current time, the "startTime" to 2 hours after the current time and the "endTime" to 3 hours after the current time.
+        /// The "CheckCondition" method is then called with these values as the input and the output is stored in the "result" variable.
+        /// The test asserts that the "result" variable should be "False", indicating that the new end time is less than the start time and it is a valid input.
+        /// </summary>
         [Fact]
         public void CheckCondition_NewEndTimeLessThanStartTime_ReturnsFalse()
         {
@@ -233,10 +255,12 @@ namespace DisprzTraining.Tests
             Assert.False(result);
         }
 
-        //The new end time set to 1 hour after the current time, the existing start time set to 2 hours after the current time,
-        //And the existing end time set to 3 hours after the current time.
-        //This test is checking that the CheckCondition method is working as expected,
-        // when the new start and end times are not equal to the start and end times that are being passed as arguments, it should return false.
+        /// <summary>
+        /// The new end time set to 1 hour after the current time, the existing start time set to 2 hours after the current time,
+        /// And the existing end time set to 3 hours after the current time.
+        /// This test is checking that the CheckCondition method is working as expected,
+        /// when the new start and end times are not equal to the start and end times that are being passed as arguments, it should return false.
+        /// </summary>
         [Fact]
         public void CheckCondition_NewStartAndEndTimeEqualToStartAndEndTime_ReturnsTrue()
         {
@@ -258,10 +282,12 @@ namespace DisprzTraining.Tests
             Assert.True(result);
         }
 
-        //The new end time set to 3 hours after the current time, the existing start time set to the current time,
-        //And the existing end time set to 2 hours after the current time.
-        //This test is checking that the CheckCondition method is working as expected,
-        // when the new start time is equal to the existing start time and the new end time is greater than the existing end time, it should return true.
+        /// <summary>
+        /// The new end time set to 3 hours after the current time, the existing start time set to the current time,
+        /// And the existing end time set to 2 hours after the current time.
+        /// This test is checking that the CheckCondition method is working as expected,
+        /// when the new start time is equal to the existing start time and the new end time is greater than the existing end time, it should return true.
+        /// </summary>
         [Fact]
         public void CheckCondition_NewStartTimeEqualToStartTimeAndNewEndTimeGreaterThanEndTime_ReturnsTrue()
         {
@@ -282,10 +308,12 @@ namespace DisprzTraining.Tests
             Assert.True(result);
         }
 
-        //The new start time set to 30 minutes before the current time, the new end time set to 2 hours after the current time,
-        //the existing start time set to the current time, and the existing end time set to 2 hours after the current time.
-        //This test is checking that the CheckCondition method is working as expected,
-        //when the new start time is less than the existing start time and the new end time is equal to the existing end time, it should return true.
+        /// <summary>
+        /// The new start time set to 30 minutes before the current time, the new end time set to 2 hours after the current time,
+        /// The existing start time set to the current time, and the existing end time set to 2 hours after the current time.
+        /// This test is checking that the CheckCondition method is working as expected,
+        /// when the new start time is less than the existing start time and the new end time is equal to the existing end time, it should return true.
+        /// </summary>
         [Fact]
         public void CheckCondition_NewStartTimeLessThanStartTimeAndNewEndTimeEqualToEndTime_ReturnsTrue()
         {
@@ -307,8 +335,10 @@ namespace DisprzTraining.Tests
             Assert.True(result);
         }
 
-        //If the patchId does exist, the method updates the details of the appointment with the new values provided in the PatchAppointmentList object.
-        //The method then returns true to indicate that the update was successful.
+        /// <summary>
+        /// If the patchId does exist, the method updates the details of the appointment with the new values provided in the PatchAppointmentList object.
+        /// The method then returns true to indicate that the update was successful.
+        /// </summary>
         [Fact]
         public void PatchAppointmentsInList_ValidInput_UpdatesAppointment()
         {
@@ -331,8 +361,10 @@ namespace DisprzTraining.Tests
             Assert.True(result);
         }
 
-        //This test case is useful for checking that the patchAppointmentsInList method is functioning correctly by correctly identifying invalid input
-        //And returning False in those cases.
+        /// <summary>
+        /// This test case is useful for checking that the patchAppointmentsInList method is functioning correctly by correctly identifying invalid input
+        /// And returning False in those cases.
+        /// </summary>
         [Fact]
         public void PatchAppointmentsInList_InValidInput_UpdatesAppointment()
         {
@@ -355,9 +387,11 @@ namespace DisprzTraining.Tests
             Assert.False(result);
         }
 
-        //The test creates a new "PatchAppointmentList" object and assigns values to its properties, including a patchId with a specific value.
-        //The "patchAppointmentsInList" function is then called with the created object as a parameter, and the returned result is asserted to be false.
-        //This test is likely checking that the "patchAppointmentsInList" function returns false when it is passed an invalid id.
+        /// <summary>
+        /// The test creates a new "PatchAppointmentList" object and assigns values to its properties, including a patchId with a specific value.
+        /// The "patchAppointmentsInList" function is then called with the created object as a parameter, and the returned result is asserted to be false.
+        /// This test is likely checking that the "patchAppointmentsInList" function returns false when it is passed an invalid id.
+        /// </summary>
         [Fact]
         public void PatchAppointmentsInList_InValidId_UpdatesAppointment()
         {
@@ -380,9 +414,11 @@ namespace DisprzTraining.Tests
             Assert.False(result);
         }
 
-        //This test that is focused on testing the functionality of the DeleteAppointmentById method in isolation.
-        //The test creates an instance of the AppointmentsBL class, calls the DeleteAppointmentById method passing in a hardcoded appointment ID as an argument
-        //And then asserts that the method returns true.
+        /// <summary>
+        /// This test that is focused on testing the functionality of the DeleteAppointmentById method in isolation.
+        /// The test creates an instance of the AppointmentsBL class, calls the DeleteAppointmentById method passing in a hardcoded appointment ID as an argument
+        /// And then asserts that the method returns true.
+        /// </summary>
         [Fact]
         public void DeleteAppointmentById_ValidInput_RemovesAppointment()
         {
@@ -396,8 +432,10 @@ namespace DisprzTraining.Tests
             Assert.True(result);
         }
 
-        //This test case is checking that when an invalid appointment Id is passed to the DeleteAppointmentById method of the AppointmentsBL class, it should return false.
-        // The test is checking whether the method is able to handle invalid inputs and return the appropriate response.
+        /// <summary>
+        /// This test case is checking that when an invalid appointment Id is passed to the DeleteAppointmentById method of the AppointmentsBL class, it should return false.
+        /// The test is checking whether the method is able to handle invalid inputs and return the appropriate response.
+        /// </summary>
         [Fact]
         public void DeleteAppointmentById_InValidInput_RemovesAppointment()
         {
