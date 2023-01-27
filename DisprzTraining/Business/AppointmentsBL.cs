@@ -6,6 +6,8 @@ namespace DisprzTraining.Business
     {
         public static List<AppointmentList> allAppointmentList = new List<AppointmentList>()
         {
+            ///MOCK
+            ///Use for test case 
             new AppointmentList()
             {
                 name = "Arun",
@@ -94,9 +96,9 @@ namespace DisprzTraining.Business
                 )
                 .ToList();
 
-            var checkList = filteredAppointmentList.Any(
+            var check = filteredAppointmentList.Any(
                 appointment =>
-                    CheckCondition(
+                    CheckAppointmentTime(
                         addAppointmentValue.appointmentStartTime,
                         addAppointmentValue.appointmentEndTime,
                         appointment.appointmentStartTime,
@@ -104,7 +106,7 @@ namespace DisprzTraining.Business
                     )
             );
 
-            if (!checkList)
+            if (!check)
             {
                 allAppointmentList.Add(addAppointmentValue);
                 return (true);
@@ -114,14 +116,14 @@ namespace DisprzTraining.Business
         }
 
         /// <summary>
-        /// A method called "CheckCondition" that takes four arguments and checks if there is a time conflict between the new start and end times and the existing start and end times.
+        /// A method called "CheckAppointmentTime" that takes four arguments and checks if there is a time conflict between the new start and end times and the existing start and end times.
         /// </summary>
         /// <param name="newStartTime">The new start time for the appointment.</param>
         /// <param name="newEndTime">The new end time for the appointment.</param>
         /// <param name="startTime">The existing start time for the appointment.</param>
         /// <param name="endTime">The existing end time for the appointment.</param>
         /// <returns>Boolean: returns 'true' if there is a time conflict and 'false' if there is no conflict.</returns>
-        public Boolean CheckCondition(
+        public Boolean CheckAppointmentTime(
             DateTime newStartTime,
             DateTime newEndTime,
             DateTime startTime,
@@ -146,10 +148,10 @@ namespace DisprzTraining.Business
                 )
                 .ToList();
 
-            var checkList = filteredAppointmentList.Any(
+            var check = filteredAppointmentList.Any(
                 appointment =>
                     appointment.id != patchAppointmentValue.patchId
-                    && CheckCondition(
+                    && CheckAppointmentTime(
                         patchAppointmentValue.patchAppointmentStartTime,
                         patchAppointmentValue.patchAppointmentEndTime,
                         appointment.appointmentStartTime,
@@ -157,9 +159,9 @@ namespace DisprzTraining.Business
                     )
             );
 
-            var appointment = allAppointmentList.Find(x => x.id == patchAppointmentValue.patchId);
+            var appointment = allAppointmentList.FirstOrDefault(x => x.id == patchAppointmentValue.patchId);
 
-            if (!checkList && appointment != null)
+            if (!check && appointment != null)
             {
                 appointment.appointmentDate = patchAppointmentValue.patchAppointmentDate;
                 appointment.appointmentStartTime = patchAppointmentValue.patchAppointmentStartTime;
