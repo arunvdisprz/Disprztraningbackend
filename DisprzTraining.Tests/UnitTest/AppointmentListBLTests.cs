@@ -117,7 +117,7 @@ namespace DisprzTraining.Tests
             var endTime = DateTime.Now.AddHours(3);
             var appointmentsBL = new AppointmentsBL();
             // Act
-            Boolean result = appointmentsBL.CheckCondition(
+            Boolean result = appointmentsBL.CheckAppointmentTime(
                 newStartTime,
                 newEndTime,
                 startTime,
@@ -143,7 +143,7 @@ namespace DisprzTraining.Tests
             var endTime = DateTime.Now.AddHours(2);
             var appointmentsBL = new AppointmentsBL();
             // Act
-            Boolean result = appointmentsBL.CheckCondition(
+            Boolean result = appointmentsBL.CheckAppointmentTime(
                 newStartTime,
                 newEndTime,
                 startTime,
@@ -168,7 +168,7 @@ namespace DisprzTraining.Tests
             var endTime = DateTime.Now;
             var appointmentsBL = new AppointmentsBL();
             // Act
-            Boolean result = appointmentsBL.CheckCondition(
+            Boolean result = appointmentsBL.CheckAppointmentTime(
                 newStartTime,
                 newEndTime,
                 startTime,
@@ -181,7 +181,7 @@ namespace DisprzTraining.Tests
 
         /// <summary>
         /// The test arranges by setting the "newStartTime" to 2 hours before the current time, the "newEndTime" to the current time,
-        /// the "startTime" to the current time and the "endTime" to 2 hours after the current time. The "CheckCondition" method is then called with these values as the input and the output is stored in the "result" variable.
+        /// the "startTime" to the current time and the "endTime" to 2 hours after the current time. The "CheckAppointmentTime" method is then called with these values as the input and the output is stored in the "result" variable.
         /// The test asserts that the "result" variable should be "False", indicating that the new start time and new end time are not overlapping with the start time and end time.
         /// </summary>
         [Fact]
@@ -194,7 +194,7 @@ namespace DisprzTraining.Tests
             var endTime = DateTime.Now.AddHours(2);
             var appointmentsBL = new AppointmentsBL();
             // Act
-            Boolean result = appointmentsBL.CheckCondition(
+            Boolean result = appointmentsBL.CheckAppointmentTime(
                 newStartTime,
                 newEndTime,
                 startTime,
@@ -206,7 +206,7 @@ namespace DisprzTraining.Tests
 
         /// <summary>
         /// The test arranges by setting the "newStartTime" to 3 hours after the current time, the "newEndTime" to 4 hours after the current time,
-        /// The "startTime" to the current time and the "endTime" to 2 hours after the current time. The "CheckCondition" method is then called with these values as the input and the output is stored in the "result" variable.
+        /// The "startTime" to the current time and the "endTime" to 2 hours after the current time. The "CheckAppointmentTime" method is then called with these values as the input and the output is stored in the "result" variable.
         /// The test asserts that the "result" variable should be "False", indicating that the new start time is greater than the end time and it is  a valid input.
         /// </summary>
         [Fact]
@@ -219,7 +219,7 @@ namespace DisprzTraining.Tests
             var endTime = DateTime.Now.AddHours(2);
             var appointmentsBL = new AppointmentsBL();
             // Act
-            Boolean result = appointmentsBL.CheckCondition(
+            Boolean result = appointmentsBL.CheckAppointmentTime(
                 newStartTime,
                 newEndTime,
                 startTime,
@@ -232,7 +232,7 @@ namespace DisprzTraining.Tests
         /// <summary>
         /// The test arranges by setting the "newStartTime" to the current time,
         /// The "newEndTime" to 1 hour after the current time, the "startTime" to 2 hours after the current time and the "endTime" to 3 hours after the current time.
-        /// The "CheckCondition" method is then called with these values as the input and the output is stored in the "result" variable.
+        /// The "CheckAppointmentTime" method is then called with these values as the input and the output is stored in the "result" variable.
         /// The test asserts that the "result" variable should be "False", indicating that the new end time is less than the start time and it is a valid input.
         /// </summary>
         [Fact]
@@ -245,7 +245,7 @@ namespace DisprzTraining.Tests
             var endTime = DateTime.Now.AddHours(3);
             var appointmentsBL = new AppointmentsBL();
             // Act
-            Boolean result = appointmentsBL.CheckCondition(
+            Boolean result = appointmentsBL.CheckAppointmentTime(
                 newStartTime,
                 newEndTime,
                 startTime,
@@ -258,7 +258,7 @@ namespace DisprzTraining.Tests
         /// <summary>
         /// The new end time set to 1 hour after the current time, the existing start time set to 2 hours after the current time,
         /// And the existing end time set to 3 hours after the current time.
-        /// This test is checking that the CheckCondition method is working as expected,
+        /// This test is checking that the CheckAppointmentTime method is working as expected,
         /// when the new start and end times are not equal to the start and end times that are being passed as arguments, it should return false.
         /// </summary>
         [Fact]
@@ -271,7 +271,7 @@ namespace DisprzTraining.Tests
             var endTime = DateTime.Now.AddHours(2);
             var appointmentsBL = new AppointmentsBL();
             // Act
-            Boolean result = appointmentsBL.CheckCondition(
+            Boolean result = appointmentsBL.CheckAppointmentTime(
                 newStartTime,
                 newEndTime,
                 startTime,
@@ -285,7 +285,7 @@ namespace DisprzTraining.Tests
         /// <summary>
         /// The new end time set to 3 hours after the current time, the existing start time set to the current time,
         /// And the existing end time set to 2 hours after the current time.
-        /// This test is checking that the CheckCondition method is working as expected,
+        /// This test is checking that the CheckAppointmentTime method is working as expected,
         /// when the new start time is equal to the existing start time and the new end time is greater than the existing end time, it should return true.
         /// </summary>
         [Fact]
@@ -298,7 +298,7 @@ namespace DisprzTraining.Tests
             var endTime = DateTime.Now.AddHours(2);
             var appointmentsBL = new AppointmentsBL();
             // Act
-            Boolean result = appointmentsBL.CheckCondition(
+            Boolean result = appointmentsBL.CheckAppointmentTime(
                 newStartTime,
                 newEndTime,
                 startTime,
@@ -311,7 +311,7 @@ namespace DisprzTraining.Tests
         /// <summary>
         /// The new start time set to 30 minutes before the current time, the new end time set to 2 hours after the current time,
         /// The existing start time set to the current time, and the existing end time set to 2 hours after the current time.
-        /// This test is checking that the CheckCondition method is working as expected,
+        /// This test is checking that the CheckAppointmentTime method is working as expected,
         /// when the new start time is less than the existing start time and the new end time is equal to the existing end time, it should return true.
         /// </summary>
         [Fact]
@@ -324,7 +324,7 @@ namespace DisprzTraining.Tests
             var endTime = DateTime.Now.AddHours(2);
             var appointmentsBL = new AppointmentsBL();
             // Act
-            Boolean result = appointmentsBL.CheckCondition(
+            Boolean result = appointmentsBL.CheckAppointmentTime(
                 newStartTime,
                 newEndTime,
                 startTime,
